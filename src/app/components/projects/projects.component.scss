@@ -1,0 +1,100 @@
+.content-wrapper {
+    .toolbar {
+        display: flex;
+        align-items: center;
+        margin-bottom: 24px;
+
+        .search {
+            display: flex;
+            align-items: center;
+            border: 1px solid #F4F4F4;
+            box-shadow: 0px 0px 7px 2px #C6C6C614;
+            border-radius: 6px;
+            height: 36px;
+            width: 100%;
+            gap: 8px;
+            padding: 12px;
+            box-sizing: border-box;
+            width: 320px;
+
+            input[type=text] {
+                border: none;
+                flex-grow: 1;
+                font-size: 14px;
+                font-weight: 400;
+
+                &::placeholder {
+                    color: #BCC1CB;
+                }
+                &:focus-visible {
+                    outline: none;
+                }
+            }
+        }
+
+        .filter {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+    }
+
+    .grid {
+        margin-top: 16px;
+        box-sizing: border-box;
+
+        .row {
+            display: grid;
+            grid-template-columns: 50px repeat(5, 1fr) 64px;
+            border-bottom: 1px solid #ECECEC;
+            box-sizing: border-box;
+
+            .th {
+                height: 34px;
+                font-size: 12px;
+                color: #7A818D;
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                padding: 0 16px;
+                box-sizing: border-box;
+            }
+
+            .td {
+                height: 54px;
+                display: flex;
+                align-items: center;
+                font-size: 16px;
+                font-weight: 500;
+                gap: 16px;
+                padding: 0 16px;
+                box-sizing: border-box;
+
+                &.check {
+                    justify-content: center;
+                    background-color: #F7F9FC;
+                }
+
+                &.actions {
+                    padding: 0;
+                }
+            }
+        }
+    }
+
+    .status {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 14px;
+
+        &.completed {
+            background-color: #D1F5DD;
+            color: #208141;
+        }
+
+        &.in-progress {
+            background-color: #FBDDBF;
+            color: #C27A31;
+        }
+    }
+}

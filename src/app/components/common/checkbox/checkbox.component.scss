@@ -1,0 +1,18 @@
+:host {
+    user-select: none;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    width: fit-content;
+
+    svg {
+        cursor: pointer;
+    }
+
+    label {
+        color: #333C4E;
+        font-weight: 400;
+        font-size: 12px;
+        cursor: pointer;
+    }
+}

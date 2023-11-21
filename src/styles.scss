@@ -11,3 +11,57 @@ html {
     height: 100%;
     overflow: hidden;
 }
+
+/* button */
+.btn {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+
+    &.btn-primary {
+        border-radius: 20px;
+        padding: 8px 20px;
+        background-color: #FFFFFF;
+        border: 1px solid $button-primary-color;
+        color: $button-primary-color;
+    }
+}
+
+/* nav tabs */
+.nav-tabs {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 42px;
+    width: 100%;
+    border-bottom: 1px solid #F4F4F4;
+    box-sizing: border-box;
+
+    li {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        height: 30px;
+        box-sizing: border-box;
+        color: $button-primary-color;
+        position: relative;
+
+        &.active {
+            font-weight: 700;
+
+            &::after {
+                content: '';
+                position: absolute;
+                display: block;
+                height: 1px;
+                width: 100%;
+                background-color: $button-primary-color;
+                bottom: -1px;
+            }
+        }
+    }
+}
