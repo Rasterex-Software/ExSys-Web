@@ -1,4 +1,5 @@
 export const environment = {
     production: false,
-    webViewerUrl: "webViewerUrl"
+    webViewerUrl: "webViewerUrl",
+    webTitle: "webTitle"
 };

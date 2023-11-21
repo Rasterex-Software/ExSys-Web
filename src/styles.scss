@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+@import "assets/scss/fonts.scss";
+@import "assets/scss/config.scss";
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    background-color: $body-background-color;
+    font-family: FontRegular;
+    height: 100%;
+    overflow: hidden;
+}
