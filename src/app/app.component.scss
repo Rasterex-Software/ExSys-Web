@@ -1,8 +1,10 @@
 @import "../assets/scss/config.scss";
 
-div {
-    height: 30px;
+.main-content-wrapper {
     width: 100%;
-    background-color: $primary-color;
-    color: white
+    height: calc(100% - 60px);
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 24px;
 }
