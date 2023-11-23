@@ -39,6 +39,10 @@
         <li>RECIPIENTS</li>
     </ul>
 
+    <div (click)="onCompareClick()" style="margin-top: 16px; display: flex; align-items: center; justify-content: flex-end;">
+        <button class="btn btn-primary btn-inverse" [disabled]="selectedDocuments.length !== 2">Compare</button>
+    </div>
+
     <div class="grid">
         <div class="row">
             <div class="th"></div>
@@ -51,9 +55,9 @@
         </div>
         <div class="row" *ngFor="let document of documents">
             <div class="td check">
-                <co-checkbox></co-checkbox>
+                <co-checkbox (valueChange)="onCheck($event ,document)"></co-checkbox>
             </div>
-            <div class="td">{{document.document}}</div>
+            <div class="td">{{document.fileName}}</div>
             <div class="td">{{document.title}}</div>
             <div class="td"><span class="status" [class.completed]="document.status == 'Completed'" [class.in-progress]="document.status == 'In progress'">{{document.status}}</span></div>
             <div class="td">{{document.revisions}}</div>
@@ -72,3 +76,10 @@
         </div>
     </div>
 </div>
+
+<app-compare-panel
+    *ngIf="isCompare"
+    [backgroundDocument]="selectedDocuments[0]"
+    [overlayDocument]="selectedDocuments[1]"
+    (onClose)="isCompare = false">
+</app-compare-panel>

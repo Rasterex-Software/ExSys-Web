@@ -7,6 +7,8 @@ import { SideNavMenuComponent } from './components/side-nav-menu/side-nav-menu.c
 import { AppRoutingModule } from './app-routing.module';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { CheckboxComponent } from './components/common/checkbox/checkbox.component';
+import { ComparePanelComponent } from './components/compare-panel/compare-panel.component';
+import { SimpleProgressComponent } from './components/common/simple-progress/simple-progress.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { CheckboxComponent } from './components/common/checkbox/checkbox.compone
     TopNavMenuComponent,
     SideNavMenuComponent,
     ProjectsComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    ComparePanelComponent,
+    SimpleProgressComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IDocument } from 'src/app/models/IDocument';
 
 @Component({
   selector: 'app-projects',
@@ -6,20 +7,41 @@ import { Component } from '@angular/core';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent {
-  documents = [
+  documents: Array<IDocument> = [
     {
-      document: "Floor plan A",
+      name: "Floor plan A",
       title: "Normalprofil",
       status: "Completed",
       revisions: 2,
-      dateUploaded: "01.12.2023"
+      dateUploaded: "01.12.2023",
+      url: "/assets/docexamples/version1.pdf",
+      fileName: "version1.pdf",
+      selected: false
     },
     {
-      document: "Floor plan B",
+      name: "Floor plan B",
       title: "Normalprofil",
       status: "In progress",
       revisions: 4,
-      dateUploaded: "30.11.2023"
+      dateUploaded: "30.11.2023",
+      url: "/assets/docexamples/version2.pdf",
+      fileName: "version2.pdf",
+      selected: false
     }
   ];
+
+  selectedDocuments: Array<IDocument> = [];
+  isCompare: boolean = false;
+
+  onCheck(value: boolean, document: IDocument): void {
+    document.selected = value;
+    this.selectedDocuments = this.documents.filter(doc => doc.selected);
+    if (this.isCompare && this.selectedDocuments.length != 2) {
+      this.isCompare = false;
+    }
+  }
+
+  onCompareClick(): void {
+    this.isCompare = true;
+  }
 }

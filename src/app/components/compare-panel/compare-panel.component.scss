@@ -1,0 +1,110 @@
+.compare-panel-wrapper {
+    position: fixed;
+    top: 60px;
+    right: 0;
+    left: auto;
+    width: 50%;
+    height: calc(100% - 60px);
+
+    .compare-panel {
+        height: 100%;
+        border: 1px solid #ECECEC;
+        box-shadow: -4px 0px 8px 0px #2828280F;
+        background-color: #FFFFFF;
+        transition: right 3s ease-in-out;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        box-sizing: border-box;
+
+        .compare-panel-header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        hr {
+            width: 100%;
+            border: 1px solid #F4F4F4;
+        }
+
+        .compared-files {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            .label {
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            .file-info {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 16px;
+                border: 1px solid #F4F4F4;
+                border-radius: 6px;
+                box-sizing: border-box;
+                height: 38px;
+                background: linear-gradient(0deg, #F4F4F4, #F4F4F4), linear-gradient(0deg, #FBFCFE, #FBFCFE);
+                color: #7A818D;
+                font-size: 14px;
+
+                .color {
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 3px;
+
+                    &.color-red {
+                        background-color: #E86767;
+                    }
+
+                    &.color-blue {
+                        background-color: #0E3BD8;
+                    }
+                }
+            }
+        }
+
+        .iframe-wrapper {
+            position: relative;
+            width: 100%;
+            height: 50%;
+            border: 1px solid #F4F4F4;
+            border-radius: 16px;
+
+            * {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                border-radius: 16px;
+                border: transparent;
+
+                &.iframe-loader {
+                    z-index: 1;
+                    background-color: #F7F9FC;
+                    ::ng-deep {
+                        .progress-wrapper {
+                            border-radius: 16px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .footer-wrapper {
+            width: 100%;
+            display: flex;
+            flex-grow: 1;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+    }
+}
