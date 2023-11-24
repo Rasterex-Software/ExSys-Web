@@ -17,18 +17,20 @@ export class ComparePanelComponent implements OnInit {
 
   constructor(private readonly sanitizer: DomSanitizer) {}
 
-  isLoading: boolean = true;
-  isExpandView: boolean = true;
+  isProgress: boolean = true;
+  isExpandedView: boolean = false;
+  progressMessage: string = "It takes a few seconds to generate the comparison."
 
   ngOnInit(): void {
     window.addEventListener("message", (event) => {
       switch (event.data.type) {
         case "progressStart": {
-          this.isLoading = true;
+          this.progressMessage = event.data.message;
+          this.isProgress = true;
           break;
         }
         case "progressEnd": {
-          this.isLoading = false;
+          this.isProgress = false;
           break;
         }
       }
@@ -38,8 +40,8 @@ export class ComparePanelComponent implements OnInit {
   async onIframeLoad(): Promise<void> {
     if (!this.backgroundDocument?.url || !this.overlayDocument?.url) return;
 
-    this.isLoading = true;
-    
+    this.isProgress = true;
+
     this.iframe?.nativeElement.contentWindow?.postMessage({
       type: "guiConfig",
       payload: {
@@ -63,5 +65,38 @@ export class ComparePanelComponent implements OnInit {
 
   onCloseClick(): void {
     this.onClose.emit();
+  }
+
+  onExpandViewClick(): void {
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "guiMode",
+      payload: {
+        mode: "annotate"
+      }
+    }, "*");
+    this.isExpandedView = true;
+  }
+
+  onMinimizeViewClick(): void {
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "guiMode",
+      payload: {
+        mode: "view"
+      }
+    }, "*");
+    this.isExpandedView = false;
+  }
+
+  onSavaAsPDFClick(): void {
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "export",
+      payload: {
+        isPDF: true
+      }
+    }, "*");
+  }
+
+  onOpenInViewerClick(): void {
+    window.open(environment.webViewerUrl, '_new');
   }
 }
