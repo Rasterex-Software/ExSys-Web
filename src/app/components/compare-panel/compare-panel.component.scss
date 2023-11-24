@@ -3,8 +3,8 @@
     top: 60px;
     right: 0;
     left: auto;
-    width: 50%;
     height: calc(100% - 60px);
+
 
     &.expanded-view {
         top: 0;
@@ -155,5 +155,18 @@
             align-items: flex-end;
             justify-content: space-between;
         }
+    }
+}
+
+.divider {
+    background-color: #31BD59;
+    float: left;
+    height: 100%;
+    width: 3px;
+    cursor: ew-resize;
+    opacity: .6;
+
+    &:hover {
+        opacity: 1;
     }
 }

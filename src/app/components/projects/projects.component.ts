@@ -30,8 +30,8 @@ export class ProjectsComponent {
     }
   ];
 
-  selectedDocuments: Array<IDocument> = [];
-  isCompare: boolean = false;
+  selectedDocuments: Array<IDocument> = [...this.documents];
+  isCompare: boolean = true;
 
   onCheck(value: boolean, document: IDocument): void {
     document.selected = value;

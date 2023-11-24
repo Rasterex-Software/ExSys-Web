@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { DomSanitizer } from "@angular/platform-browser";
 import { IDocument } from 'src/app/models/IDocument';
@@ -11,6 +11,7 @@ import { IDocument } from 'src/app/models/IDocument';
 export class ComparePanelComponent implements OnInit {
   webViewerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(environment.webViewerUrl);
   @ViewChild("iframe", {static: false}) iframe?: ElementRef<HTMLIFrameElement>;
+  @ViewChild("panel", {static: false}) panel?: ElementRef<HTMLDivElement>;
   @Input() backgroundDocument: IDocument | undefined;
   @Input() overlayDocument: IDocument | undefined;
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
@@ -68,6 +69,7 @@ export class ComparePanelComponent implements OnInit {
   }
 
   onExpandViewClick(): void {
+    this.panelWidth = '100%';
     this.iframe?.nativeElement.contentWindow?.postMessage({
       type: "guiMode",
       payload: {
@@ -78,6 +80,7 @@ export class ComparePanelComponent implements OnInit {
   }
 
   onMinimizeViewClick(): void {
+    this.panelWidth = this.adjustingEvent.width;
     this.iframe?.nativeElement.contentWindow?.postMessage({
       type: "guiMode",
       payload: {
@@ -98,5 +101,40 @@ export class ComparePanelComponent implements OnInit {
 
   onOpenInViewerClick(): void {
     window.open(environment.webViewerUrl, '_new');
+  }
+
+  panelWidth = `${Math.round(0.5*document.body.offsetWidth)}px`;
+
+  adjustingEvent = {
+    isAdjusting: false,
+    startingCursorX: 0,
+    startingWidth: this.panel?.nativeElement.offsetWidth || 0,
+    width: '',
+  };
+
+  startAdjusting(event: MouseEvent): void {
+    this.adjustingEvent.isAdjusting = true;
+    this.adjustingEvent.startingCursorX = event.clientX;
+  }
+
+  @HostListener('window:mousemove', ['$event'])
+  updatePanelWidth(event: MouseEvent) {
+    if (!this.adjustingEvent.isAdjusting) {
+      return;
+    }
+
+    const cursorDeltaX = -event.clientX + this.adjustingEvent.startingCursorX;
+    const newWidth = this.adjustingEvent.startingWidth + cursorDeltaX;
+
+    if (newWidth <= 600) return;
+
+    this.panelWidth = `${newWidth}px`;
+    this.adjustingEvent.width = this.panelWidth;
+  }
+
+  @HostListener('window:mouseup')
+  stopAdjusting() {
+    this.adjustingEvent.isAdjusting = false;
+    this.adjustingEvent.startingWidth = parseInt(this.panelWidth);
   }
 }

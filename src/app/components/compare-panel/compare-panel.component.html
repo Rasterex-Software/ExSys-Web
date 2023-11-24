@@ -1,6 +1,9 @@
-<div class="compare-panel-wrapper" [class.expanded-view]="isExpandedView">
+<div class="compare-panel-wrapper noselect" [class.expanded-view]="isExpandedView" [ngStyle]="{ 'width': panelWidth }">
+    <div *ngIf="!isExpandedView" class="divider" (mousedown)="startAdjusting($event)"></div>
+
     <div *ngIf="isExpandedView" style="position: absolute; top:0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(2px);"></div>
     <div class="compare-panel">
+
         <div class="header-wrapper">
             <div class="compare-panel-header">
                 <svg width="148" height="13" viewBox="0 0 148 13" fill="none" xmlns="http://www.w3.org/2000/svg">
