@@ -8,17 +8,27 @@
         </svg>
         <span>{{title}}</span>
     </div>
+    <div style="flex-grow: 1;"></div>
     <ul class="menu">
         <li class="active">My projects</li>
         <li>My company</li>
         <li>My employees</li>
     </ul>
-    <div class="profile-wrapper">
-        <span class="user-initials">{{userInitials}}</span>
-        <span class="user-name">{{userName}}</span>
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 8L10 12" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M14 8L10 12" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+    <div class="profile-wrapper" #profileMenu>
+        <div class="profile-selected">
+            <span class="user-initials">{{selectedUser?.initials}}</span>
+            <span class="user-name">{{selectedUser?.name}}</span>
+            <svg (click)="profileMenuOpened = !profileMenuOpened" class="arrow" [class.opened]="profileMenuOpened" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 8L10 12" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 8L10 12" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div *ngIf="profileMenuOpened" class="profile-options-container">
+            <div class="profile-options-wrapper">
+                <ul>
+                    <li *ngFor="let user of users" (click)="onUserSelect(user)">{{user.name}}</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </nav>

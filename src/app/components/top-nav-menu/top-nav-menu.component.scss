@@ -2,6 +2,7 @@
 @import "../../../assets/scss/config.scss";
 
 nav {
+    position: relative;
     color: $top-nav-menu-color;
     background-color: $top-nav-menu-background-color;
     height: 60px;
@@ -18,6 +19,11 @@ nav {
     }
 
     ul.menu {
+        position: absolute;
+        height: 100%;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
         margin: 0;
         padding: 0;
         list-style: none;
@@ -53,24 +59,73 @@ nav {
 
     .profile-wrapper {
         display: flex;
-        align-items: center;
-        gap: 12px;
+        flex-direction: column;
 
-        .user-initials {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: $top-nav-menu-color;
-            color: $top-nav-menu-background-color;
-            font-size: 16px;
-            font-weight: 600;
+        .profile-selected {
+            height: 100%;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 12px;
+
+            .user-initials {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background-color: $top-nav-menu-color;
+                color: $top-nav-menu-background-color;
+                font-size: 16px;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+    
+            .user-name {
+                font-size: 16px;
+            }
+
+            .arrow {
+                cursor: pointer;
+
+                &.opened {
+                    transform: rotate(180deg);
+                }
+            }
         }
 
-        .user-name {
-            font-size: 16px;
+        .profile-options-container {
+            position: relative;
+
+            .profile-options-wrapper {
+                z-index: 10;
+                position: absolute;
+                top: 6px;
+                right: 0px;
+                background-color: #FFFFFF;
+                box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.05);
+                padding: 12px 0;
+                border-radius: 6px;
+                color: #606C82;
+                width: 100%;
+
+                ul {
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+
+                    li {
+                        padding: 6px 12px;
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: #F3F5FA;
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ import { ProjectsComponent } from './components/projects/projects.component';
 import { CheckboxComponent } from './components/common/checkbox/checkbox.component';
 import { ComparePanelComponent } from './components/compare-panel/compare-panel.component';
 import { SimpleProgressComponent } from './components/common/simple-progress/simple-progress.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { SimpleProgressComponent } from './components/common/simple-progress/sim
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
