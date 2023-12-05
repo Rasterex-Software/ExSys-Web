@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { DomSanitizer } from "@angular/platform-browser";
-import { IDocument } from 'src/app/models/IDocument';
+import { IBasicDocument } from 'src/app/models/IDocument';
 
 @Component({
   selector: 'app-compare-panel',
@@ -12,8 +12,8 @@ export class ComparePanelComponent implements OnInit {
   webViewerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(environment.webViewerUrl);
   @ViewChild("iframe", {static: false}) iframe?: ElementRef<HTMLIFrameElement>;
   @ViewChild("panel", {static: false}) panel?: ElementRef<HTMLDivElement>;
-  @Input() backgroundDocument: IDocument | undefined;
-  @Input() overlayDocument: IDocument | undefined;
+  @Input() backgroundDocument: IBasicDocument | undefined;
+  @Input() overlayDocument: IBasicDocument | undefined;
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private readonly sanitizer: DomSanitizer) {}
@@ -58,8 +58,8 @@ export class ComparePanelComponent implements OnInit {
     this.iframe?.nativeElement.contentWindow?.postMessage({
       type: "compare",
       payload: {
-        backgroundFile: new File([backgroundFile], this.backgroundDocument.fileName || "unknown"),
-        overlayFile: new File([overlayFile], this.overlayDocument.fileName || "unknown"),
+        backgroundFile: new File([backgroundFile], this.backgroundDocument.key || "unknown"),
+        overlayFile: new File([overlayFile], this.overlayDocument.key || "unknown"),
       }
     }, "*");
   }

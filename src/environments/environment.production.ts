@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    webViewerUrl: "webViewerUrl",
-    webTitle: "webTitle",
+    webViewerUrl: "http://ec2-3-75-211-117.eu-central-1.compute.amazonaws.com:81/",
+    webTitle: "Your system",
     apiBaseUrl: "http://localhost:3000"
 };

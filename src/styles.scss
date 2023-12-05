@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "assets/scss/fonts.scss";
 @import "assets/scss/config.scss";
+@import '~@angular/cdk/overlay-prebuilt.css';
 
 body,
 html {
@@ -84,4 +85,4 @@ html {
           -ms-user-select: none; /* Internet Explorer/Edge */
               user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
-  }
+}

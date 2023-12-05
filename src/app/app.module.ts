@@ -10,6 +10,8 @@ import { CheckboxComponent } from './components/common/checkbox/checkbox.compone
 import { ComparePanelComponent } from './components/compare-panel/compare-panel.component';
 import { SimpleProgressComponent } from './components/common/simple-progress/simple-progress.component';
 import { HttpClientModule } from '@angular/common/http';
+import { DropdownPanelComponent } from './components/common/dropdown-panel/dropdown-panel.component';
+import { DropdownTriggerForDirective } from './components/common/dropdown-panel/dropdown-panel.directive';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { HttpClientModule } from '@angular/common/http';
     ProjectsComponent,
     CheckboxComponent,
     ComparePanelComponent,
-    SimpleProgressComponent
+    SimpleProgressComponent,
+    DropdownPanelComponent,
+    DropdownTriggerForDirective
   ],
   imports: [
     BrowserModule,

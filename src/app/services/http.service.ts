@@ -43,10 +43,8 @@ export class HttpService {
     return this.httpCall('DELETE', path, payload).toPromise();
   }
 
-  public postFile<T>(path: string, file: File): Promise<ArrayBuffer> {
-    const formData = new FormData();
-    formData.append('file', file);
-    return this.httpCall('POST', path, formData, { responseType: 'arraybuffer' }, "multipart/form-data; charset=utf-8").toPromise();
+  public postFile<T>(path: string, data: FormData): Promise<ArrayBuffer> {
+    return this.httpCall('POST', path, data, { responseType: 'json' }, "multipart/form-data; charset=utf-8").toPromise();
   }
 
   private httpCall(method: string, path: string, payload?: any, options?: any, contentType = 'application/json'): Observable<any> {

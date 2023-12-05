@@ -1,10 +1,19 @@
-export interface IDocument {
-    name?: string,
-    title?: string,
-    fileName: string,
-    url: string,
-    status?: string,
-    revisions?: Number,
-    dateUploaded?: string,
+export interface IBasicDocument {
+    id: number;
+    url: string;
+    key: string;
+    createdDate?: Date;
+    name?: string;
     selected?: boolean;
+    version: number;
+}
+
+export interface IDocumentVersion extends IBasicDocument {
+    description: string;
+}
+
+export interface IDocument extends IBasicDocument {
+    title?: string;
+    status?: string;
+    versions?: Array<IDocumentVersion>;
 }

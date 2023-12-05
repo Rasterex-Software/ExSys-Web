@@ -21,11 +21,11 @@
                 <span class="label">Compared files:</span>
                 <div class="file-info">
                     <span class="color color-red"></span>
-                    <span>{{backgroundDocument?.fileName}} / Rev.{{backgroundDocument?.revisions}}</span>
+                    <span>{{backgroundDocument?.name}} / Rev.{{backgroundDocument?.version || 0}}</span>
                 </div>
                 <div class="file-info">
                     <span class="color color-blue"></span>
-                    <span>{{overlayDocument?.fileName}} / Rev.{{overlayDocument?.revisions}}</span>
+                    <span>{{overlayDocument?.name}} / Rev.{{overlayDocument?.version || 0}}</span>
                 </div>
                 <div *ngIf="isExpandedView" style="flex-grow: 1; display: flex; align-items: center; justify-content: flex-end; gap: 24px">
                     <div style="display: flex; align-items: center; gap: 8px;">
