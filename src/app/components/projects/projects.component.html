@@ -54,69 +54,71 @@
             <div class="th">Date uploaded</div>
             <div class="th"></div>
         </div>
-        <div class="row" *ngFor="let document of documents">
-            <div class="td expand" [class.expanded]="document.id == expandedDocument?.id" (click)="onExpandClick(document)">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 14L12 10" stroke="#0D41F9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8 6L12 10" stroke="#0D41F9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-            <div class="td check">
-                <co-checkbox (valueChange)="onCheck($event ,document)"></co-checkbox>
-            </div>
-            <div class="td">{{document.name}}</div>
-            <div class="td">{{document.title}}</div>
-            <div class="td"><span class="status" [class.completed]="document.status == 'Completed'" [class.in-progress]="document.status == 'In progress'">{{document.status}}</span></div>
-            <div class="td">{{document.versions?.length}}</div>
-            <div class="td">{{document.createdDate | date: "dd.MM.YYYY" }}</div>
-            <div class="td actions">
-               <!--  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3 10.4C3 8.15979 3 7.03969 3.43597 6.18404C3.81947 5.43139 4.43139 4.81947 5.18404 4.43597C6.03969 4 7.15979 4 9.4 4H14.6C16.8402 4 17.9603 4 18.816 4.43597C19.5686 4.81947 20.1805 5.43139 20.564 6.18404C21 7.03969 21 8.15979 21 10.4V11.6C21 13.8402 21 14.9603 20.564 15.816C20.1805 16.5686 19.5686 17.1805 18.816 17.564C17.9603 18 16.8402 18 14.6 18H7.41421C7.149 18 6.89464 18.1054 6.70711 18.2929L4.70711 20.2929C4.07714 20.9229 3 20.4767 3 19.5858V18V13V10.4ZM9 8C8.44772 8 8 8.44772 8 9C8 9.55228 8.44772 10 9 10H15C15.5523 10 16 9.55228 16 9C16 8.44772 15.5523 8 15 8H9ZM9 12C8.44772 12 8 12.4477 8 13C8 13.5523 8.44772 14 9 14H12C12.5523 14 13 13.5523 13 13C13 12.4477 12.5523 12 12 12H9Z" fill="#E1E4EA"/>
-                </svg> -->
-                <svg [dropdownTriggerFor]="dropdown" class=".row-options-btn" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="12" fill="#F5F5F6"/>
-                    <circle cx="12" cy="6" r="2" fill="#606C82"/>
-                    <circle cx="12" cy="12" r="2" fill="#606C82"/>
-                    <circle cx="12" cy="18" r="2" fill="#606C82"/>
-                </svg>
-                <co-dropdown-panel #dropdown>
-                    <ul class="row-dropdown-options">
-                        <li (click)="onDeleteDocumentClick(document)">Delete</li>
-                        <li (click)="onUploadVersionClick(document)">Upload version</li>
-                    </ul>
-                </co-dropdown-panel>
-            </div>
-            <div style="height: 100%; grid-column: 1/9;border-top: 1px solid #ECECEC;" *ngIf="document.id == expandedDocument?.id">
-                <div class="sub-grid" *ngIf="expandedDocument?.versions?.length; else emptyVersionsTemplate">
-                    <div class="row">
-                        <div class="th"></div>
-                        <div class="th">Revision</div>
-                        <div class="th">Description</div>
-                        <div class="th">Date</div>
-                        <div class="th"></div>
-                    </div>
-                    <div class="row" *ngFor="let version of expandedDocument?.versions">
-                        <div class="td check">
-                            <co-checkbox (valueChange)="onCheck($event, version)"></co-checkbox>
+        <div class="grid-body">
+            <div class="row" *ngFor="let document of documents">
+                <div class="td expand" [class.expanded]="document.id == expandedDocument?.id" (click)="onExpandClick(document)">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 14L12 10" stroke="#0D41F9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 6L12 10" stroke="#0D41F9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="td check">
+                    <co-checkbox (valueChange)="onCheck($event ,document)"></co-checkbox>
+                </div>
+                <div class="td">{{document.name}}</div>
+                <div class="td">{{document.title}}</div>
+                <div class="td"><span class="status" [class.completed]="document.status == 'Completed'" [class.in-progress]="document.status == 'In progress'">{{document.status}}</span></div>
+                <div class="td">{{document.versions?.length}}</div>
+                <div class="td">{{document.createdDate | date: "dd.MM.YYYY" }}</div>
+                <div class="td actions">
+                <!--  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3 10.4C3 8.15979 3 7.03969 3.43597 6.18404C3.81947 5.43139 4.43139 4.81947 5.18404 4.43597C6.03969 4 7.15979 4 9.4 4H14.6C16.8402 4 17.9603 4 18.816 4.43597C19.5686 4.81947 20.1805 5.43139 20.564 6.18404C21 7.03969 21 8.15979 21 10.4V11.6C21 13.8402 21 14.9603 20.564 15.816C20.1805 16.5686 19.5686 17.1805 18.816 17.564C17.9603 18 16.8402 18 14.6 18H7.41421C7.149 18 6.89464 18.1054 6.70711 18.2929L4.70711 20.2929C4.07714 20.9229 3 20.4767 3 19.5858V18V13V10.4ZM9 8C8.44772 8 8 8.44772 8 9C8 9.55228 8.44772 10 9 10H15C15.5523 10 16 9.55228 16 9C16 8.44772 15.5523 8 15 8H9ZM9 12C8.44772 12 8 12.4477 8 13C8 13.5523 8.44772 14 9 14H12C12.5523 14 13 13.5523 13 13C13 12.4477 12.5523 12 12 12H9Z" fill="#E1E4EA"/>
+                    </svg> -->
+                    <svg [dropdownTriggerFor]="dropdown" class=".row-options-btn" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="12" fill="#F5F5F6"/>
+                        <circle cx="12" cy="6" r="2" fill="#606C82"/>
+                        <circle cx="12" cy="12" r="2" fill="#606C82"/>
+                        <circle cx="12" cy="18" r="2" fill="#606C82"/>
+                    </svg>
+                    <co-dropdown-panel #dropdown>
+                        <ul class="row-dropdown-options">
+                            <li (click)="onDeleteDocumentClick(document)">Delete</li>
+                            <li (click)="onUploadVersionClick(document)">Upload version</li>
+                        </ul>
+                    </co-dropdown-panel>
+                </div>
+                <div style="height: 100%; grid-column: 1/9;border-top: 1px solid #ECECEC;" *ngIf="document.id == expandedDocument?.id">
+                    <div class="sub-grid" *ngIf="expandedDocument?.versions?.length; else emptyVersionsTemplate">
+                        <div class="row">
+                            <div class="th"></div>
+                            <div class="th">Revision</div>
+                            <div class="th">Description</div>
+                            <div class="th">Date</div>
+                            <div class="th"></div>
                         </div>
-                        <div class="td">{{version.version | number : '2.0-2'}}</div>
-                        <div class="td">{{version.description}}</div>
-                        <div class="td">{{document.createdDate | date: "dd.MM.YYYY" }}</div>
-                        <div class="td actions">
-                            <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M3 10.4C3 8.15979 3 7.03969 3.43597 6.18404C3.81947 5.43139 4.43139 4.81947 5.18404 4.43597C6.03969 4 7.15979 4 9.4 4H14.6C16.8402 4 17.9603 4 18.816 4.43597C19.5686 4.81947 20.1805 5.43139 20.564 6.18404C21 7.03969 21 8.15979 21 10.4V11.6C21 13.8402 21 14.9603 20.564 15.816C20.1805 16.5686 19.5686 17.1805 18.816 17.564C17.9603 18 16.8402 18 14.6 18H7.41421C7.149 18 6.89464 18.1054 6.70711 18.2929L4.70711 20.2929C4.07714 20.9229 3 20.4767 3 19.5858V18V13V10.4ZM9 8C8.44772 8 8 8.44772 8 9C8 9.55228 8.44772 10 9 10H15C15.5523 10 16 9.55228 16 9C16 8.44772 15.5523 8 15 8H9ZM9 12C8.44772 12 8 12.4477 8 13C8 13.5523 8.44772 14 9 14H12C12.5523 14 13 13.5523 13 13C13 12.4477 12.5523 12 12 12H9Z" fill="#E1E4EA"/>
-                            </svg> -->
-                            <svg [dropdownTriggerFor]="dropdown" class=".row-options-btn" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="12" cy="12" r="12" fill="#F5F5F6"/>
-                                <circle cx="12" cy="6" r="2" fill="#606C82"/>
-                                <circle cx="12" cy="12" r="2" fill="#606C82"/>
-                                <circle cx="12" cy="18" r="2" fill="#606C82"/>
-                            </svg>
-                            <co-dropdown-panel #dropdown>
-                                <ul class="row-dropdown-options">
-                                    <li (click)="onDeleteVersionClick(document, version)">Delete</li>
-                                </ul>
-                            </co-dropdown-panel>
+                        <div class="row" *ngFor="let version of expandedDocument?.versions">
+                            <div class="td check">
+                                <co-checkbox (valueChange)="onCheck($event, version)"></co-checkbox>
+                            </div>
+                            <div class="td">{{version.version | number : '2.0-2'}}</div>
+                            <div class="td">{{version.description}}</div>
+                            <div class="td">{{document.createdDate | date: "dd.MM.YYYY" }}</div>
+                            <div class="td actions">
+                                <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3 10.4C3 8.15979 3 7.03969 3.43597 6.18404C3.81947 5.43139 4.43139 4.81947 5.18404 4.43597C6.03969 4 7.15979 4 9.4 4H14.6C16.8402 4 17.9603 4 18.816 4.43597C19.5686 4.81947 20.1805 5.43139 20.564 6.18404C21 7.03969 21 8.15979 21 10.4V11.6C21 13.8402 21 14.9603 20.564 15.816C20.1805 16.5686 19.5686 17.1805 18.816 17.564C17.9603 18 16.8402 18 14.6 18H7.41421C7.149 18 6.89464 18.1054 6.70711 18.2929L4.70711 20.2929C4.07714 20.9229 3 20.4767 3 19.5858V18V13V10.4ZM9 8C8.44772 8 8 8.44772 8 9C8 9.55228 8.44772 10 9 10H15C15.5523 10 16 9.55228 16 9C16 8.44772 15.5523 8 15 8H9ZM9 12C8.44772 12 8 12.4477 8 13C8 13.5523 8.44772 14 9 14H12C12.5523 14 13 13.5523 13 13C13 12.4477 12.5523 12 12 12H9Z" fill="#E1E4EA"/>
+                                </svg> -->
+                                <svg [dropdownTriggerFor]="dropdown" class=".row-options-btn" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="12" fill="#F5F5F6"/>
+                                    <circle cx="12" cy="6" r="2" fill="#606C82"/>
+                                    <circle cx="12" cy="12" r="2" fill="#606C82"/>
+                                    <circle cx="12" cy="18" r="2" fill="#606C82"/>
+                                </svg>
+                                <co-dropdown-panel #dropdown>
+                                    <ul class="row-dropdown-options">
+                                        <li (click)="onDeleteVersionClick(document, version)">Delete</li>
+                                    </ul>
+                                </co-dropdown-panel>
+                            </div>
                         </div>
                     </div>
                 </div>

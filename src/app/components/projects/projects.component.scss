@@ -43,6 +43,11 @@
         margin-top: 16px;
         box-sizing: border-box;
 
+        .grid-body {
+            overflow-y: auto;
+            height: calc(100vh - 305px);
+        }
+
         .row {
             display: grid;
             grid-template-columns: 50px 34px repeat(4, 1fr) 200px 64px;
@@ -69,6 +74,9 @@
                 gap: 16px;
                 padding: 0 16px;
                 box-sizing: border-box;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
 
                 &.expand {
                     background-color: #F7F9FC;
@@ -154,6 +162,7 @@
         padding: 4px 10px;
         border-radius: 20px;
         font-size: 14px;
+        white-space: nowrap;
 
         &.completed {
             background-color: #D1F5DD;
