@@ -137,4 +137,14 @@ export class ComparePanelComponent implements OnInit {
     this.adjustingEvent.isAdjusting = false;
     this.adjustingEvent.startingWidth = parseInt(this.panelWidth);
   }
+
+  onFileClick(fileIndex: number): void {
+    console.log(fileIndex);
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "setActiveFileByIndex",
+      payload: {
+        fileIndex
+      }
+    }, "*");
+  }
 }

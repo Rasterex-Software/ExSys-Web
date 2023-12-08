@@ -85,6 +85,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            white-space: nowrap;
 
             .label {
                 font-size: 14px;
@@ -100,9 +101,17 @@
                 border-radius: 6px;
                 box-sizing: border-box;
                 height: 38px;
-                background: linear-gradient(0deg, #F4F4F4, #F4F4F4), linear-gradient(0deg, #FBFCFE, #FBFCFE);
+                background: #FFFFFF;
                 color: #7A818D;
                 font-size: 14px;
+                cursor: pointer;
+
+                .file-name {
+                    overflow: hidden;
+                    text-wrap: nowrap;
+                    text-overflow: ellipsis;
+                    max-width: 200px;
+                }
 
                 .color {
                     width: 6px;
