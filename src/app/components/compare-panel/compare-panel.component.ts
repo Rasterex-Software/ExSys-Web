@@ -34,6 +34,12 @@ export class ComparePanelComponent implements OnInit {
           this.isProgress = false;
           break;
         }
+        case "comparisonComplete": {
+          if (this,this.isExpandedView) {
+            this.onFileClick(2);
+          }
+          break;
+        }
       }
     }, false);
   }
@@ -139,12 +145,20 @@ export class ComparePanelComponent implements OnInit {
   }
 
   onFileClick(fileIndex: number): void {
-    console.log(fileIndex);
     this.iframe?.nativeElement.contentWindow?.postMessage({
       type: "setActiveFileByIndex",
       payload: {
         fileIndex
       }
     }, "*");
+
+    if (fileIndex == 2) {
+      this.iframe?.nativeElement.contentWindow?.postMessage({
+        type: "guiMode",
+        payload: {
+          mode: "annotate"
+        }
+      }, "*");
+    }
   }
 }
