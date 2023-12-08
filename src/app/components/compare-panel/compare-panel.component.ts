@@ -79,7 +79,7 @@ export class ComparePanelComponent implements OnInit {
     this.iframe?.nativeElement.contentWindow?.postMessage({
       type: "guiMode",
       payload: {
-        mode: "annotate"
+        mode: "compare"
       }
     }, "*");
     this.isExpandedView = true;
@@ -156,7 +156,7 @@ export class ComparePanelComponent implements OnInit {
       this.iframe?.nativeElement.contentWindow?.postMessage({
         type: "guiMode",
         payload: {
-          mode: "annotate"
+          mode: "compare"
         }
       }, "*");
     }
