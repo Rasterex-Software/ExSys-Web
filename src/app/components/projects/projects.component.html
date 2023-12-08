@@ -140,7 +140,7 @@
     type="file"
     style="display: none;"
     #documentUpload
-    accept="application/pdf"
+    accept=".pdf, .dwg, .dgn, .plt"
     onclick="this.value = null;"
     (change)="onDocumentUpload($event)" />
 
@@ -148,6 +148,6 @@
     type="file"
     style="display: none;"
     #versionUpload
-    accept="application/pdf"
+    accept=".pdf, .dwg, .dgn, .plt"
     onclick="clickedDocument = undefined; this.value = null;"
     (change)="onDocumentVersionUpload($event)" />
