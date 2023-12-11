@@ -35,9 +35,6 @@ export class ComparePanelComponent implements OnInit {
           break;
         }
         case "comparisonComplete": {
-          if (this,this.isExpandedView) {
-            this.onFileClick(2);
-          }
           break;
         }
       }
