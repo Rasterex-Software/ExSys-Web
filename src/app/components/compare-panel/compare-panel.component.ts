@@ -90,7 +90,7 @@ export class ComparePanelComponent implements OnInit {
     this.iframe?.nativeElement.contentWindow?.postMessage({
       type: "guiMode",
       payload: {
-        mode: "view"
+        mode: "compare"
       }
     }, "*");
     this.isExpandedView = false;
