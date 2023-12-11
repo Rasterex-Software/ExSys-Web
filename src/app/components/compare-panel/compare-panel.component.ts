@@ -22,6 +22,8 @@ export class ComparePanelComponent implements OnInit {
   isExpandedView: boolean = false;
   progressMessage: string = "It takes a few seconds to generate the comparison."
 
+  comparison: any = undefined;
+
   ngOnInit(): void {
     window.addEventListener("message", (event) => {
       switch (event.data.type) {
@@ -35,6 +37,7 @@ export class ComparePanelComponent implements OnInit {
           break;
         }
         case "comparisonComplete": {
+          this.comparison = event.data.payload;
           break;
         }
       }
@@ -103,7 +106,14 @@ export class ComparePanelComponent implements OnInit {
   }
 
   onOpenInViewerClick(): void {
-    window.open(environment.webViewerUrl, '_new');
+    if (!this.comparison) return;
+
+    const comparison = { ...this.comparison };
+    delete comparison.activeColor.label;
+    delete comparison.otherColor.label;
+
+    const url = `${environment.webViewerUrl}?compare=${encodeURIComponent(JSON.stringify(comparison)) }`;
+    window.open(url, '_new');
   }
 
   panelWidth = `${Math.round(0.5*document.body.offsetWidth)}px`;
