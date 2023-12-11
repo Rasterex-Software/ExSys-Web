@@ -21,13 +21,13 @@
                 <span class="label">Compared files:</span>
                 <div style="display: flex; align-items: center; gap: 6px; border-radius: 6px; background-color: #F4F4F4; padding: 4px 8px;">
                     <span style="cursor: pointer;" (click)="onFileClick(2)">Comparison 1</span>
-                    <div class="file-info" (click)="onFileClick(0)">
-                        <span class="color color-red"></span>
-                        <span class="file-name">{{backgroundDocument?.name}} / Rev.{{backgroundDocument?.version || 0}}</span>
-                    </div>
                     <div class="file-info" (click)="onFileClick(1)">
-                        <span class="color color-blue"></span>
+                        <span class="color" [ngStyle]="{ 'background-color': comparison?.activeColor?.value || '#0E3BD8' }"></span>
                         <span class="file-name">{{overlayDocument?.name}} / Rev.{{overlayDocument?.version || 0}}</span>
+                    </div>
+                    <div class="file-info" (click)="onFileClick(0)">
+                        <span class="color" [ngStyle]="{ 'background-color': comparison?.otherColor?.value || '#E86767' }"></span>
+                        <span class="file-name">{{backgroundDocument?.name}} / Rev.{{backgroundDocument?.version || 0}}</span>
                     </div>
                 </div>
                 <div *ngIf="isExpandedView" style="flex-grow: 1; display: flex; align-items: center; justify-content: flex-end; gap: 24px">
