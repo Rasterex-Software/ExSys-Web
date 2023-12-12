@@ -23,6 +23,7 @@ export class ComparePanelComponent implements OnInit {
   progressMessage: string = "It takes a few seconds to generate the comparison."
 
   comparison: any = undefined;
+  activeFileIndex: number = 2;
 
   ngOnInit(): void {
     window.addEventListener("message", (event) => {
@@ -152,6 +153,8 @@ export class ComparePanelComponent implements OnInit {
   }
 
   onFileClick(fileIndex: number): void {
+    this.activeFileIndex = fileIndex;
+
     this.iframe?.nativeElement.contentWindow?.postMessage({
       type: "setActiveFileByIndex",
       payload: {
