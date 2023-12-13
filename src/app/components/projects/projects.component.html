@@ -63,7 +63,7 @@
                     </svg>
                 </div>
                 <div class="td check">
-                    <co-checkbox (valueChange)="onCheck($event ,document)"></co-checkbox>
+                    <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !document.selected)" [value]="document.selected" (valueChange)="onCheck($event, document)"></co-checkbox>
                 </div>
                 <div class="td">{{document.name}}</div>
                 <div class="td">{{document.title}}</div>
@@ -87,7 +87,7 @@
                         </ul>
                     </co-dropdown-panel>
                 </div>
-                <div style="height: 100%; grid-column: 1/9;border-top: 1px solid #ECECEC;" *ngIf="document.id == expandedDocument?.id">
+                <div class="sub-grid-wrapper" *ngIf="document.id == expandedDocument?.id">
                     <div class="sub-grid" *ngIf="expandedDocument?.versions?.length; else emptyVersionsTemplate">
                         <div class="row">
                             <div class="th"></div>
@@ -98,7 +98,7 @@
                         </div>
                         <div class="row" *ngFor="let version of expandedDocument?.versions">
                             <div class="td check">
-                                <co-checkbox (valueChange)="onCheck($event, version)"></co-checkbox>
+                                <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !version.selected)" [value]="version.selected" (valueChange)="onCheck($event, version)"></co-checkbox>
                             </div>
                             <div class="td">{{version.version | number : '2.0-2'}}</div>
                             <div class="td">{{version.description}}</div>

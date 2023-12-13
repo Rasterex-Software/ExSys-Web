@@ -7,7 +7,8 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 })
 export class CheckboxComponent implements OnInit {
   @Input() label: string = "";
-  @Input() value: boolean = false;
+  @Input() value: boolean | undefined = false;
+  @Input() disabled: boolean = false;
   @Output('valueChange') onValueChange = new EventEmitter<boolean>();
   constructor() { }
 
@@ -15,6 +16,8 @@ export class CheckboxComponent implements OnInit {
   }
 
   handleOnClick() {
+    if (this.disabled) return;
+
     this.value = !this.value;
     this.onValueChange.emit(this.value);
   }

@@ -7,6 +7,10 @@
 
     svg {
         cursor: pointer;
+        &.disabled {
+            opacity: .3;
+            cursor: not-allowed;
+        }
     }
 
     label {
