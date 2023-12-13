@@ -53,8 +53,6 @@ export class ProjectsComponent implements OnInit {
     } else {
       this.expandedDocument = document;
     }
-
-    this.isCompare = false;
   }
 
   onAddDocumentClick(): void {
