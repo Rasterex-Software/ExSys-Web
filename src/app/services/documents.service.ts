@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { IUser } from '../models/IUser';
 import { HttpService } from './http.service';
-import { IBasicDocument, IDocument, IDocumentVersion } from '../models/IDocument';
+import { IDocument, IDocumentVersion } from '../models/IDocument';
 
 @Injectable({
     providedIn: 'root'
@@ -15,12 +14,11 @@ export class DocumentsService {
     }
 
     public async create(file: File): Promise<IDocument> {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('name', file.name);
-        formData.append('title', file.name.split('.')[0]);
-        formData.append('status', "In progress");
-        const result: any = await this.httpService.postFile('/documents', formData);
+        const result: any = await this.httpService.post('/documents', {
+            name: file.name,
+            title: file.name.split('.')[0],
+            status: "In progress",
+        });
         return result;
     }
 
@@ -29,9 +27,10 @@ export class DocumentsService {
     }
 
     public async createVersion(documentId: number, file: File): Promise<IDocumentVersion> {
-        const formData = new FormData();
-        formData.append('file', file);
-        const result: any = await this.httpService.postFile(`/documents/${documentId}/versions`, formData);
+        const result: any = await this.httpService.post(`/documents/${documentId}/versions`, {
+            name: file.name,
+            description: "...",
+        });
         return result;
     }
 

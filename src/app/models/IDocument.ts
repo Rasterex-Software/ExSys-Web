@@ -1,7 +1,5 @@
 export interface IBasicDocument {
     id: number;
-    url: string;
-    key: string;
     createdDate?: Date;
     name?: string;
     selected?: boolean;

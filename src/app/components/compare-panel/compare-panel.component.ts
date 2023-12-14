@@ -9,7 +9,7 @@ import { IBasicDocument } from 'src/app/models/IDocument';
   styleUrls: ['./compare-panel.component.scss']
 })
 export class ComparePanelComponent implements OnInit {
-  webViewerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(environment.webViewerUrl);
+  webViewerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(environment.rxWebViewerUrl);
   @ViewChild("iframe", {static: false}) iframe?: ElementRef<HTMLIFrameElement>;
   @ViewChild("panel", {static: false}) panel?: ElementRef<HTMLDivElement>;
   @Input() backgroundDocument: IBasicDocument | undefined;
@@ -46,7 +46,7 @@ export class ComparePanelComponent implements OnInit {
   }
 
   async onIframeLoad(): Promise<void> {
-    if (!this.backgroundDocument?.url || !this.overlayDocument?.url) return;
+    if (!this.backgroundDocument?.name || !this.overlayDocument?.name) return;
 
     this.isProgress = true;
 
@@ -59,14 +59,14 @@ export class ComparePanelComponent implements OnInit {
       }
     }, "*");
 
-    const backgroundFile = await (await fetch(this.backgroundDocument.url)).blob();
-    const overlayFile = await (await fetch(this.overlayDocument?.url)).blob();
+    //const backgroundFile = await (await fetch(this.backgroundDocument.url)).blob();
+    //const overlayFile = await (await fetch(this.overlayDocument?.url)).blob();
 
     this.iframe?.nativeElement.contentWindow?.postMessage({
       type: "compare",
       payload: {
-        backgroundFile: new File([backgroundFile], this.backgroundDocument.key || "unknown"),
-        overlayFile: new File([overlayFile], this.overlayDocument.key || "unknown"),
+        backgroundFileName: this.backgroundDocument.name,
+        overlayFileName: this.overlayDocument.name,
       }
     }, "*");
   }
@@ -113,7 +113,7 @@ export class ComparePanelComponent implements OnInit {
     delete comparison.activeColor.label;
     delete comparison.otherColor.label;
 
-    const url = `${environment.webViewerUrl}?compare=${encodeURIComponent(JSON.stringify(comparison)) }`;
+    const url = `${environment.rxWebViewerUrl}?compare=${encodeURIComponent(JSON.stringify(comparison)) }`;
     window.open(url, '_new');
   }
 

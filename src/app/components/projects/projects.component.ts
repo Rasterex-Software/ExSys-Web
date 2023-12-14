@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { IBasicDocument, IDocument, IDocumentVersion } from 'src/app/models/IDocument';
 import { DocumentsService } from 'src/app/services/documents.service';
+import { RxServerService } from 'src/app/services/rxserver.service';
 
 @Component({
   selector: 'app-projects',
@@ -12,7 +13,8 @@ export class ProjectsComponent implements OnInit {
   @ViewChild("versionUpload", {static: false}) versionUpload?: ElementRef<HTMLIFrameElement>;
 
   constructor(
-    private readonly documentsService: DocumentsService
+    private readonly documentsService: DocumentsService,
+    private readonly rxServerService: RxServerService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -35,7 +37,7 @@ export class ProjectsComponent implements OnInit {
 
       this.selectedDocuments.push(document);
     } else {
-      this.selectedDocuments = this.selectedDocuments.filter(doc => doc.key !== document.key);
+      this.selectedDocuments = this.selectedDocuments.filter(doc => doc.id !== document.id);
     }
 
     if (this.isCompare && this.selectedDocuments.length != 2) {
@@ -61,6 +63,7 @@ export class ProjectsComponent implements OnInit {
 
   async onDocumentUpload(event: any): Promise<void> {
     const file = event.target.files[0];
+    await this.rxServerService.uploadFile(file);
     const document = await this.documentsService.create(file);
     this.documents = await this.documentsService.list();
   }
