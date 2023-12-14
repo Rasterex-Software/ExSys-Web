@@ -63,7 +63,7 @@
             <co-simple-progress *ngIf="isProgress" class="iframe-loader">
                 {{progressMessage}}
             </co-simple-progress>
-            <iframe #iframe [src]="webViewerUrl" (load)="onIframeLoad()"></iframe>
+            <iframe #iframe [src]="webViewerUrlQ" (load)="onIframeLoad()"></iframe>
         </div>
 
         <ng-container *ngIf="!isExpandedView">

@@ -10,6 +10,8 @@ import { IBasicDocument } from 'src/app/models/IDocument';
 })
 export class ComparePanelComponent implements OnInit {
   webViewerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(environment.rxWebViewerUrl);
+  webViewerUrlQ = this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.rxWebViewerUrl}?t=${Date.now()}`);
+
   @ViewChild("iframe", {static: false}) iframe?: ElementRef<HTMLIFrameElement>;
   @ViewChild("panel", {static: false}) panel?: ElementRef<HTMLDivElement>;
   @Input() backgroundDocument: IBasicDocument | undefined;
@@ -58,9 +60,6 @@ export class ComparePanelComponent implements OnInit {
         disableTopNavMenu: true,
       }
     }, "*");
-
-    //const backgroundFile = await (await fetch(this.backgroundDocument.url)).blob();
-    //const overlayFile = await (await fetch(this.overlayDocument?.url)).blob();
 
     this.iframe?.nativeElement.contentWindow?.postMessage({
       type: "compare",
