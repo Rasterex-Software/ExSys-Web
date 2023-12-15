@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build:stage": "ng build --configuration stage",
+    "build": "ng build --deploy-url /ExSys/ --base-href /ExSys",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

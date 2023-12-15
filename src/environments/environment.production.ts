@@ -1,7 +1,7 @@
 export const environment = {
     production: true,
-    rxWebViewerUrl: "http://ec2-3-75-211-117.eu-central-1.compute.amazonaws.com:81",
-    rxServerUrl: "http://ec2-3-75-211-117.eu-central-1.compute.amazonaws.com",
-    webTitle: "Your system",
-    apiBaseUrl: "http://localhost:3000"
+    rxWebViewerUrl: "http://viewserver.rasterex.com",
+    rxServerUrl: "http://viewserver.rasterex.com",
+    webTitle: "ExSys",
+    apiBaseUrl: "http://viewserver.rasterex.com:8081"
 };
