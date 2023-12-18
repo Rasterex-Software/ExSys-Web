@@ -23,6 +23,7 @@ export class ComparePanelComponent implements OnInit {
   isProgress: boolean = true;
   isExpandedView: boolean = false;
   progressMessage: string = "It takes a few seconds to generate the comparison."
+  isFullScreenView: boolean = false;
 
   comparison: any = undefined;
   activeFileIndex: number = 2;
@@ -169,5 +170,9 @@ export class ComparePanelComponent implements OnInit {
         }
       }, "*");
     }
+  }
+
+  onFullScreenClick(): void {
+    this.isFullScreenView = true;
   }
 }

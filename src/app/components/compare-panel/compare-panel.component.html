@@ -19,7 +19,7 @@
 
             <div class="compared-files">
                 <span class="label">Compared files:</span>
-                <div style="display: flex; align-items: center; gap: 6px; border-radius: 6px; background-color: #F4F4F4; padding: 4px 8px;">
+                <div style="display: flex; align-items: center; gap: 6px; border-radius: 6px; background-color: #F4F4F4; padding: 4px 8px; overflow: hidden;">
                     <span style="cursor: pointer;" (click)="onFileClick(2)">Comparison 1</span>
                     <div class="file-info" [class.active-tab]="activeFileIndex == 1" (click)="onFileClick(1)">
                         <span class="color" [ngStyle]="{ 'background-color': comparison?.activeColor?.value || '#0E3BD8' }"></span>
@@ -32,7 +32,7 @@
                 </div>
                 <div *ngIf="isExpandedView" style="flex-grow: 1; display: flex; align-items: center; justify-content: flex-end; gap: 24px">
                     <div *ngIf="comparison" style="display: flex; align-items: center; gap: 8px;">
-                        <span style="color: #0D41F9; font-size: 14px;">Open in viewer</span>
+                        <span (click)="onOpenInViewerClick()" style="color: #0D41F9; font-size: 14px; cursor: pointer;">Open in viewer</span>
                         <svg (click)="onOpenInViewerClick()" style="cursor: pointer;" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M16.6641 8.33268V15.8327C16.6641 16.0537 16.5763 16.2657 16.42 16.4219C16.2637 16.5782 16.0517 16.666 15.8307 16.666H4.16406C3.94305 16.666 3.73109 16.5782 3.57481 16.4219C3.41853 16.2657 3.33073 16.0537 3.33073 15.8327V4.16602C3.33073 3.945 3.41853 3.73304 3.57481 3.57676C3.73109 3.42048 3.94305 3.33268 4.16406 3.33268H11.6641C11.8851 3.33268 12.097 3.24489 12.2533 3.0886C12.4096 2.93232 12.4974 2.72036 12.4974 2.49935C12.4974 2.27834 12.4096 2.06637 12.2533 1.91009C12.097 1.75381 11.8851 1.66602 11.6641 1.66602H4.16406C3.50102 1.66602 2.86514 1.92941 2.3963 2.39825C1.92745 2.86709 1.66406 3.50297 1.66406 4.16602V15.8327C1.66406 16.4957 1.92745 17.1316 2.3963 17.6005C2.86514 18.0693 3.50102 18.3327 4.16406 18.3327H15.8307C16.4938 18.3327 17.1297 18.0693 17.5985 17.6005C18.0673 17.1316 18.3307 16.4957 18.3307 15.8327V8.33268C18.3307 8.11167 18.2429 7.89971 18.0867 7.74343C17.9304 7.58715 17.7184 7.49935 17.4974 7.49935C17.2764 7.49935 17.0644 7.58715 16.9081 7.74343C16.7519 7.89971 16.6641 8.11167 16.6641 8.33268Z" fill="#0D41F9"/>
                             <path d="M17.5008 1.66602H15.0008C14.7798 1.66602 14.5678 1.75381 14.4115 1.91009C14.2553 2.06637 14.1675 2.27834 14.1675 2.49935C14.1675 2.72036 14.2553 2.93232 14.4115 3.0886C14.5678 3.24489 14.7798 3.33268 15.0008 3.33268H15.4925L9.40914 9.40768C9.25222 9.5646 9.16406 9.77743 9.16406 9.99935C9.16406 10.2213 9.25222 10.4341 9.40914 10.591C9.56606 10.7479 9.77889 10.8361 10.0008 10.8361C10.2227 10.8361 10.4356 10.7479 10.5925 10.591L16.6675 4.50768V4.99935C16.6675 5.22036 16.7553 5.43232 16.9115 5.5886C17.0678 5.74488 17.2798 5.83268 17.5008 5.83268C17.7218 5.83268 17.9338 5.74488 18.0901 5.5886C18.2463 5.43232 18.3341 5.22036 18.3341 4.99935V2.49935C18.3341 2.27834 18.2463 2.06637 18.0901 1.91009C17.9338 1.75381 17.7218 1.66602 17.5008 1.66602Z" fill="#0D41F9"/>
@@ -62,22 +62,27 @@
             </div>
         </div>
 
-        <div class="iframe-wrapper">
+        <div class="iframe-wrapper" [class.full-screen]="isFullScreenView">
             <co-simple-progress *ngIf="isProgress" class="iframe-loader">
                 {{progressMessage}}
             </co-simple-progress>
-            <iframe #iframe [src]="webViewerUrlQ" (load)="onIframeLoad()"></iframe>
+            <div style="position: relative;"><iframe #iframe [src]="webViewerUrlQ" (load)="onIframeLoad()"></iframe></div>
+            <div *ngIf="isFullScreenView" style="position: fixed; display: flex; align-items: center;gap: 8px;color: #0D41F9; font-size: 14px; z-index: 101; top: 26px; left: unset; right: 32px; width: 24px; height: 24px;">
+                <svg (click)="isFullScreenView = false;" style="cursor: pointer;" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10ZM13.8912 8.98505C13.8912 8.74897 13.6998 8.55759 13.4638 8.55759H12.0503L15.7036 4.90426C15.8705 4.73743 15.8705 4.46695 15.7036 4.30012C15.5368 4.13329 15.2663 4.13329 15.0995 4.30012L11.4462 7.95345V6.53999C11.4462 6.30391 11.2548 6.11254 11.0187 6.11254C10.7826 6.11254 10.5912 6.30391 10.5912 6.53999V9.41251H13.4638C13.6998 9.41251 13.8912 9.22113 13.8912 8.98505ZM6.54195 11.4419C6.30587 11.4419 6.11449 11.2505 6.11449 11.0144C6.11449 10.7783 6.30587 10.5869 6.54195 10.5869H9.41446V13.4595C9.41446 13.6955 9.22308 13.8869 8.987 13.8869C8.75092 13.8869 8.55954 13.6955 8.55954 13.4595V12.046L4.90621 15.6993C4.73938 15.8662 4.4689 15.8662 4.30207 15.6993C4.13524 15.5325 4.13524 15.262 4.30207 15.0952L7.9554 11.4419H6.54195ZM8.55954 7.95345L4.90621 4.30012C4.73938 4.13329 4.4689 4.13329 4.30207 4.30012C4.13524 4.46695 4.13524 4.73743 4.30207 4.90426L7.9554 8.55759H6.54195C6.30587 8.55759 6.11449 8.74897 6.11449 8.98505C6.11449 9.22113 6.30587 9.41251 6.54195 9.41251H9.41446V6.53999C9.41446 6.30391 9.22308 6.11254 8.987 6.11254C8.75092 6.11254 8.55954 6.30391 8.55954 6.53999V7.95345ZM13.8912 11.0144C13.8912 11.2505 13.6998 11.4419 13.4638 11.4419H12.0503L15.7036 15.0952C15.8705 15.262 15.8705 15.5325 15.7036 15.6993C15.5368 15.8662 15.2663 15.8662 15.0995 15.6993L11.4462 12.046V13.4595C11.4462 13.6955 11.2548 13.8869 11.0187 13.8869C10.7826 13.8869 10.5912 13.6955 10.5912 13.4595V10.5869H13.4638C13.6998 10.5869 13.8912 10.7783 13.8912 11.0144Z" fill="#0D41F9"/>
+                </svg>
+            </div>
         </div>
 
         <ng-container *ngIf="!isExpandedView">
             <div class="hr"></div>
 
-            <div style="width: 100%; display: flex; align-items: center; justify-content: flex-end;">
+            <div style="width: 100%; display: flex; align-items: center; justify-content: flex-end; padding: 10px 0 16px 0;">
                 <button (click)="onSavaAsPDFClick()" class="btn btn-primary">Save as PDF</button>
             </div>
 
             <div class="footer-wrapper">
-                <span style="color: #7A818D;font-size: 12px;">Go to full screen to use all available comparison functions.</span>
+                <span style="color: #7A818D;font-size: 12px;">Go to <span (click)="onFullScreenClick()" style="cursor: pointer; color: #0D41F9">full screen</span> to use all available comparison functions.</span>
             </div>
         </ng-container>
     </div>
