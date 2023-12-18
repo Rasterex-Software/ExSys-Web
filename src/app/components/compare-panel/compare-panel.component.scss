@@ -75,9 +75,10 @@
             justify-content: space-between;
         }
 
-        hr {
+        .hr {
             width: 100%;
-            border: 1px solid #F4F4F4;
+            height: 1px;
+            background-color: #F4F4F4;
         }
 
         .compared-files {
@@ -107,14 +108,14 @@
                 cursor: pointer;
 
                 &.active-tab {
-                    border-color: #31BD59;
+                    border-color: #0D41F9;
                 }
 
                 .file-name {
                     overflow: hidden;
                     text-wrap: nowrap;
                     text-overflow: ellipsis;
-                    max-width: 200px;
+                    max-width: 100px;
                 }
 
                 .color {
@@ -172,14 +173,16 @@
 }
 
 .divider {
-    background-color: #31BD59;
+    background-color: #FFFFFF;
     float: left;
     height: 100%;
     width: 3px;
     cursor: ew-resize;
     opacity: .6;
+    border-right: 1px solid #F4F4F4;
 
     &:hover {
         opacity: 1;
+        border-right-color: #0D41F9;
     }
 }
