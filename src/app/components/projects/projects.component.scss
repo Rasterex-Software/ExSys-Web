@@ -50,9 +50,15 @@
 
         .row {
             display: grid;
-            grid-template-columns: 50px 34px repeat(4, 1fr) 200px 64px;
+            grid-template-columns: 50px 34px repeat(2, 1fr) 140px 100px 200px 64px;
             border-bottom: 1px solid #ECECEC;
             box-sizing: border-box;
+
+            &.row-expandable {
+                &:not(:first-of-type) {
+                    padding-top: 12px;
+                }
+            }
 
             .th {
                 height: 34px;
@@ -63,6 +69,10 @@
                 gap: 16px;
                 padding: 0 16px;
                 box-sizing: border-box;
+
+                &.center {
+                    justify-content: center;
+                }
             }
 
             .td {
@@ -77,6 +87,10 @@
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
+
+                &.center {
+                    justify-content: center;
+                }
 
                 &.expand {
                     background-color: #F7F9FC;
@@ -125,9 +139,12 @@
 
             .row {
                 display: grid;
-                grid-template-columns: 50px 104px 1fr 200px 64px;
-                border-bottom: 1px solid #ECECEC;
+                grid-template-columns: 50px 150px 1fr 200px 64px;
                 box-sizing: border-box;
+
+                &:last-of-type {
+                    border-bottom: none;
+                }
 
                 .th {
                     height: 34px;

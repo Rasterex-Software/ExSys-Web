@@ -50,12 +50,12 @@
             <div class="th">Document</div>
             <div class="th">Title</div>
             <div class="th">Status</div>
-            <div class="th">Revisions</div>
+            <div class="th center">Revisions</div>
             <div class="th">Date uploaded</div>
             <div class="th"></div>
         </div>
         <div class="grid-body">
-            <div class="row" *ngFor="let document of documents">
+            <div class="row row-expandable" *ngFor="let document of documents">
                 <div class="td expand" [class.expanded]="document.id == expandedDocument?.id" (click)="onExpandClick(document)">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8 14L12 10" stroke="#0D41F9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -68,7 +68,7 @@
                 <div class="td">{{document.name}}</div>
                 <div class="td">{{document.title}}</div>
                 <div class="td"><span class="status" [class.completed]="document.status == 'Completed'" [class.in-progress]="document.status == 'In progress'">{{document.status}}</span></div>
-                <div class="td">{{document.versions?.length}}</div>
+                <div class="td center">{{document.versions?.length}}</div>
                 <div class="td">{{document.createdDate | date: "dd.MM.YYYY" }}</div>
                 <div class="td actions">
                 <!--  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
