@@ -186,16 +186,24 @@
 }
 
 .divider {
-    background-color: #FFFFFF;
+    position: absolute;
+    top:0;
+    left: 0;
+    background-color: transparent;
     float: left;
     height: 100%;
     width: 3px;
     cursor: ew-resize;
     opacity: .6;
-    border-right: 1px solid #F4F4F4;
+    border-left: 1px solid #F4F4F4;
+    z-index: 9999;
+
+    &.active {
+        width: 100%;
+    }
 
     &:hover {
         opacity: 1;
-        border-right-color: #0D41F9;
+        border-left-color: #0D41F9;
     }
 }

@@ -1,5 +1,5 @@
 <div class="compare-panel-wrapper noselect" [class.expanded-view]="isExpandedView" [ngStyle]="{ 'width': panelWidth }">
-    <div *ngIf="!isExpandedView" class="divider" (mousedown)="startAdjusting($event)"></div>
+    <div *ngIf="!isExpandedView" class="divider" (mousedown)="startAdjusting($event)" [class.active]="adjustingEvent.isAdjusting"></div>
 
     <div *ngIf="isExpandedView" style="position: absolute; top:0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(2px);"></div>
     <div class="compare-panel">

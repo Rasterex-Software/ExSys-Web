@@ -121,35 +121,32 @@ export class ComparePanelComponent implements OnInit {
 
   adjustingEvent = {
     isAdjusting: false,
-    startingCursorX: 0,
-    startingWidth: this.panel?.nativeElement.offsetWidth || 0,
     width: '',
   };
 
   startAdjusting(event: MouseEvent): void {
     this.adjustingEvent.isAdjusting = true;
-    this.adjustingEvent.startingCursorX = event.clientX;
   }
 
-  @HostListener('window:mousemove', ['$event'])
+  @HostListener('document:pointermove', ['$event'])
   updatePanelWidth(event: MouseEvent) {
-    if (!this.adjustingEvent.isAdjusting) {
-      return;
+    event.stopPropagation();
+    if (!this.adjustingEvent.isAdjusting) return;
+
+    const newWidth = document.body.offsetWidth - event.clientX;
+
+    if (newWidth <= 600) {
+      this.panelWidth = `${605}px`;
+      this.adjustingEvent.isAdjusting = false;
+    } else {
+      this.panelWidth = `${newWidth}px`;
+      this.adjustingEvent.width = this.panelWidth;
     }
-
-    const cursorDeltaX = -event.clientX + this.adjustingEvent.startingCursorX;
-    const newWidth = this.adjustingEvent.startingWidth + cursorDeltaX;
-
-    if (newWidth <= 600) return;
-
-    this.panelWidth = `${newWidth}px`;
-    this.adjustingEvent.width = this.panelWidth;
   }
 
-  @HostListener('window:mouseup')
+  @HostListener('document:pointerup', ['$event'])
   stopAdjusting() {
     this.adjustingEvent.isAdjusting = false;
-    this.adjustingEvent.startingWidth = parseInt(this.panelWidth);
   }
 
   onFileClick(fileIndex: number): void {
