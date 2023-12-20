@@ -44,13 +44,6 @@ export class ComparePanelComponent implements OnInit {
           this.comparison = event.data.payload;
 
           this.iframe?.nativeElement.contentWindow?.postMessage({
-            type: "guiConfig",
-            payload: {
-              disableBottomToolbar: !this.isExpandedView && !this.isFullScreenView,
-            }
-          }, "*");
-
-          this.iframe?.nativeElement.contentWindow?.postMessage({
             type: "guiMode",
             payload: {
               mode: this.isExpandedView || this.isFullScreenView ? "compare" : "view"
@@ -79,7 +72,6 @@ export class ComparePanelComponent implements OnInit {
         canFileOpen: false,
         disableSideNavMenu: true,
         disableTopNavMenu: true,
-        disableBottomToolbar: true,
       }
     }, "*");
 
@@ -171,32 +163,20 @@ export class ComparePanelComponent implements OnInit {
   onExpandViewClick(): void {
     this.panelWidth = '100%';
 
-    this.iframe?.nativeElement.contentWindow?.postMessage({
-      type: "guiConfig",
-      payload: {
-        disableBottomToolbar: false,
-      }
-    }, "*");
-
-    this.iframe?.nativeElement.contentWindow?.postMessage({
-      type: "guiMode",
-      payload: {
-        mode: "compare"
-      }
-    }, "*");
+    if (this.activeFileIndex == 2) {
+      this.iframe?.nativeElement.contentWindow?.postMessage({
+        type: "guiMode",
+        payload: {
+          mode: "compare"
+        }
+      }, "*");
+    }
 
     this.isExpandedView = true;
   }
 
   onMinimizeViewClick(): void {
     this.panelWidth = this.adjustingEvent.width;
-
-    this.iframe?.nativeElement.contentWindow?.postMessage({
-      type: "guiConfig",
-      payload: {
-        disableBottomToolbar: true,
-      }
-    }, "*");
 
     this.iframe?.nativeElement.contentWindow?.postMessage({
       type: "guiMode",
@@ -209,31 +189,19 @@ export class ComparePanelComponent implements OnInit {
   }
 
   onFullScreenOpen(): void {
-    this.iframe?.nativeElement.contentWindow?.postMessage({
-      type: "guiConfig",
-      payload: {
-        disableBottomToolbar: false,
-      }
-    }, "*");
-
-    this.iframe?.nativeElement.contentWindow?.postMessage({
-      type: "guiMode",
-      payload: {
-        mode: "compare"
-      }
-    }, "*");
+    if (this.activeFileIndex == 2) {
+      this.iframe?.nativeElement.contentWindow?.postMessage({
+        type: "guiMode",
+        payload: {
+          mode: "compare"
+        }
+      }, "*");
+    }
 
     this.isFullScreenView = true;
   }
 
   onFullScreenClose(): void {
-    this.iframe?.nativeElement.contentWindow?.postMessage({
-      type: "guiConfig",
-      payload: {
-        disableBottomToolbar: true,
-      }
-    }, "*");
-
     this.iframe?.nativeElement.contentWindow?.postMessage({
       type: "guiMode",
       payload: {
