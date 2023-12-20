@@ -59,6 +59,11 @@ export class ComparePanelComponent implements OnInit {
 
           break;
         }
+        case "activeFileChanged": {
+          if (!this.isProgress) {
+            this.activeFileIndex = event.data.payload.index;
+          }
+        }
       }
     }, false);
   }
