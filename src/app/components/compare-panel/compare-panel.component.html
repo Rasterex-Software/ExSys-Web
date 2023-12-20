@@ -1,7 +1,8 @@
 <div class="compare-panel-wrapper noselect" [class.expanded-view]="isExpandedView" [ngStyle]="{ 'width': panelWidth }">
-    <div *ngIf="!isExpandedView" class="divider" (mousedown)="startAdjusting($event)" [class.active]="adjustingEvent.isAdjusting"></div>
+    <div *ngIf="!isExpandedView && !isFullScreenView" class="divider" (mousedown)="startAdjusting($event)" [class.active]="adjustingEvent.isAdjusting"></div>
 
     <div *ngIf="isExpandedView" style="position: absolute; top:0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(2px);"></div>
+
     <div class="compare-panel">
 
         <div class="header-wrapper">
@@ -68,7 +69,7 @@
             </co-simple-progress>
             <div style="position: relative;"><iframe #iframe [src]="webViewerUrlQ" (load)="onIframeLoad()"></iframe></div>
             <div *ngIf="isFullScreenView" style="position: fixed; display: flex; align-items: center;gap: 8px;color: #0D41F9; font-size: 14px; z-index: 101; top: 26px; left: unset; right: 32px; width: 24px; height: 24px;">
-                <svg (click)="isFullScreenView = false;" style="cursor: pointer;" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg (click)="onFullScreenClose()" style="cursor: pointer;" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10ZM13.8912 8.98505C13.8912 8.74897 13.6998 8.55759 13.4638 8.55759H12.0503L15.7036 4.90426C15.8705 4.73743 15.8705 4.46695 15.7036 4.30012C15.5368 4.13329 15.2663 4.13329 15.0995 4.30012L11.4462 7.95345V6.53999C11.4462 6.30391 11.2548 6.11254 11.0187 6.11254C10.7826 6.11254 10.5912 6.30391 10.5912 6.53999V9.41251H13.4638C13.6998 9.41251 13.8912 9.22113 13.8912 8.98505ZM6.54195 11.4419C6.30587 11.4419 6.11449 11.2505 6.11449 11.0144C6.11449 10.7783 6.30587 10.5869 6.54195 10.5869H9.41446V13.4595C9.41446 13.6955 9.22308 13.8869 8.987 13.8869C8.75092 13.8869 8.55954 13.6955 8.55954 13.4595V12.046L4.90621 15.6993C4.73938 15.8662 4.4689 15.8662 4.30207 15.6993C4.13524 15.5325 4.13524 15.262 4.30207 15.0952L7.9554 11.4419H6.54195ZM8.55954 7.95345L4.90621 4.30012C4.73938 4.13329 4.4689 4.13329 4.30207 4.30012C4.13524 4.46695 4.13524 4.73743 4.30207 4.90426L7.9554 8.55759H6.54195C6.30587 8.55759 6.11449 8.74897 6.11449 8.98505C6.11449 9.22113 6.30587 9.41251 6.54195 9.41251H9.41446V6.53999C9.41446 6.30391 9.22308 6.11254 8.987 6.11254C8.75092 6.11254 8.55954 6.30391 8.55954 6.53999V7.95345ZM13.8912 11.0144C13.8912 11.2505 13.6998 11.4419 13.4638 11.4419H12.0503L15.7036 15.0952C15.8705 15.262 15.8705 15.5325 15.7036 15.6993C15.5368 15.8662 15.2663 15.8662 15.0995 15.6993L11.4462 12.046V13.4595C11.4462 13.6955 11.2548 13.8869 11.0187 13.8869C10.7826 13.8869 10.5912 13.6955 10.5912 13.4595V10.5869H13.4638C13.6998 10.5869 13.8912 10.7783 13.8912 11.0144Z" fill="#0D41F9"/>
                 </svg>
             </div>
@@ -82,7 +83,7 @@
             </div>
 
             <div class="footer-wrapper">
-                <span style="color: #7A818D;font-size: 12px;">Go to <span (click)="onFullScreenClick()" style="cursor: pointer; color: #0D41F9">full screen</span> to use all available comparison functions.</span>
+                <span style="color: #7A818D;font-size: 12px;">Go to <span (click)="onFullScreenOpen()" style="cursor: pointer; color: #0D41F9">full screen</span> to use all available comparison functions.</span>
             </div>
         </ng-container>
     </div>

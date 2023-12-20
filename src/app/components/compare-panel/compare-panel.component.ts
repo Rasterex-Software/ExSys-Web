@@ -42,6 +42,21 @@ export class ComparePanelComponent implements OnInit {
         }
         case "comparisonComplete": {
           this.comparison = event.data.payload;
+
+          this.iframe?.nativeElement.contentWindow?.postMessage({
+            type: "guiConfig",
+            payload: {
+              disableBottomToolbar: !this.isExpandedView && !this.isFullScreenView,
+            }
+          }, "*");
+
+          this.iframe?.nativeElement.contentWindow?.postMessage({
+            type: "guiMode",
+            payload: {
+              mode: this.isExpandedView || this.isFullScreenView ? "compare" : "view"
+            }
+          }, "*");
+
           break;
         }
       }
@@ -59,6 +74,7 @@ export class ComparePanelComponent implements OnInit {
         canFileOpen: false,
         disableSideNavMenu: true,
         disableTopNavMenu: true,
+        disableBottomToolbar: true,
       }
     }, "*");
 
@@ -73,28 +89,6 @@ export class ComparePanelComponent implements OnInit {
 
   onCloseClick(): void {
     this.onClose.emit();
-  }
-
-  onExpandViewClick(): void {
-    this.panelWidth = '100%';
-    this.iframe?.nativeElement.contentWindow?.postMessage({
-      type: "guiMode",
-      payload: {
-        mode: "compare"
-      }
-    }, "*");
-    this.isExpandedView = true;
-  }
-
-  onMinimizeViewClick(): void {
-    this.panelWidth = this.adjustingEvent.width;
-    this.iframe?.nativeElement.contentWindow?.postMessage({
-      type: "guiMode",
-      payload: {
-        mode: "compare"
-      }
-    }, "*");
-    this.isExpandedView = false;
   }
 
   onSavaAsPDFClick(): void {
@@ -163,13 +157,85 @@ export class ComparePanelComponent implements OnInit {
       this.iframe?.nativeElement.contentWindow?.postMessage({
         type: "guiMode",
         payload: {
-          mode: "compare"
+          mode: this.isExpandedView || this.isFullScreenView ? "compare" : "view"
         }
       }, "*");
     }
   }
 
-  onFullScreenClick(): void {
+  onExpandViewClick(): void {
+    this.panelWidth = '100%';
+
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "guiConfig",
+      payload: {
+        disableBottomToolbar: false,
+      }
+    }, "*");
+
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "guiMode",
+      payload: {
+        mode: "compare"
+      }
+    }, "*");
+
+    this.isExpandedView = true;
+  }
+
+  onMinimizeViewClick(): void {
+    this.panelWidth = this.adjustingEvent.width;
+
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "guiConfig",
+      payload: {
+        disableBottomToolbar: true,
+      }
+    }, "*");
+
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "guiMode",
+      payload: {
+        mode: "view"
+      }
+    }, "*");
+
+    this.isExpandedView = false;
+  }
+
+  onFullScreenOpen(): void {
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "guiConfig",
+      payload: {
+        disableBottomToolbar: false,
+      }
+    }, "*");
+
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "guiMode",
+      payload: {
+        mode: "compare"
+      }
+    }, "*");
+
     this.isFullScreenView = true;
+  }
+
+  onFullScreenClose(): void {
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "guiConfig",
+      payload: {
+        disableBottomToolbar: true,
+      }
+    }, "*");
+
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "guiMode",
+      payload: {
+        mode: "view"
+      }
+    }, "*");
+
+    this.isFullScreenView = false;
   }
 }
