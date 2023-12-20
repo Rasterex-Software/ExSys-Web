@@ -1,5 +1,9 @@
 @import "../assets/scss/config.scss";
 
+:host {
+    font-family: FontRegular;
+}
+
 .main-content-wrapper {
     width: 100%;
     height: calc(100% - 60px);
