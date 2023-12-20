@@ -4,6 +4,7 @@ export interface IBasicDocument {
     name?: string;
     selected?: boolean;
     version: number;
+    documentId?: number;
 }
 
 export interface IDocumentVersion extends IBasicDocument {

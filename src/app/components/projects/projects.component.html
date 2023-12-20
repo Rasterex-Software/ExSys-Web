@@ -131,7 +131,7 @@
     *ngIf="isCompare"
     [backgroundDocument]="selectedDocuments[0]"
     [overlayDocument]="selectedDocuments[1]"
-    (onClose)="isCompare = false">
+    (onClose)="onCloseCompare()">
 </app-compare-panel>
 
 <ng-template #emptyVersionsTemplate>

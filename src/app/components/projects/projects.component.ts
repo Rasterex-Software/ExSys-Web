@@ -97,4 +97,27 @@ export class ProjectsComponent implements OnInit {
       document.versions = document.versions?.filter(ver => ver.id !== version.id);
     }
   }
+
+  onCloseCompare(): void {
+    this.isCompare = false;
+
+    this.selectedDocuments.forEach(selectedDocument => {
+      if (selectedDocument.documentId) {
+        const document = this.documents.find(doc => doc.id == selectedDocument.documentId);
+        if (document) {
+          const version = document.versions?.find(v => v.id == selectedDocument.id);
+          if (version) {
+            version.selected = false;
+          }
+        }
+      } else {
+        const document = this.documents.find(doc => doc.id == selectedDocument.id);
+        if (document) {
+          document.selected = false;
+        }
+      }
+    });
+
+    this.selectedDocuments = [];
+  }
 }
