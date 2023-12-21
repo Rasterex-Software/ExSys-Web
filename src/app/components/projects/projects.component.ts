@@ -27,7 +27,9 @@ export class ProjectsComponent implements OnInit {
   expandedDocument: IDocument | undefined = undefined;
   clickedDocument: IBasicDocument | undefined = undefined;
 
-  onCheck(value: boolean, document: IBasicDocument): void {
+  onCheck(value: boolean, document: IBasicDocument | undefined): void {
+    if (!document) return;
+
     document.selected = value;
 
     if (document.selected) {
@@ -74,7 +76,7 @@ export class ProjectsComponent implements OnInit {
       const version = await this.documentsService.createVersion(this.clickedDocument.id, file);
       const document = this.documents.find(doc => doc.id == this.clickedDocument?.id);
       if (document) {
-        document.versions?.push(version);
+        document.versions = [version, ...(document.versions || [])];
       }
     }
   }
