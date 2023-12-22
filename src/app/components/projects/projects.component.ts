@@ -26,6 +26,7 @@ export class ProjectsComponent implements OnInit {
   isCompare: boolean = false;
   expandedDocument: IDocument | undefined = undefined;
   clickedDocument: IBasicDocument | undefined = undefined;
+  viewDocument: IBasicDocument | undefined = undefined;
 
   onCheck(value: boolean, document: IBasicDocument | undefined): void {
     if (!document) return;
@@ -48,6 +49,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   onCompareClick(): void {
+    this.viewDocument = undefined;
     this.isCompare = true;
   }
 
@@ -100,6 +102,12 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
+  onDocumentClick(document: IBasicDocument): void {
+    this.viewDocument = undefined;
+    this.isCompare = false;
+    this.viewDocument = document;
+  }
+
   onCloseCompare(): void {
     this.isCompare = false;
 
@@ -121,5 +129,9 @@ export class ProjectsComponent implements OnInit {
     });
 
     this.selectedDocuments = [];
+  }
+
+  onCloseView(): void {
+    this.viewDocument = undefined;
   }
 }

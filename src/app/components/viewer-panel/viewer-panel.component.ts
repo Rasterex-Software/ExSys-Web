@@ -1,14 +1,14 @@
-import { Component, ViewChild, ElementRef, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, Input, Output, EventEmitter, HostListener, OnChanges, SimpleChanges } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { DomSanitizer } from "@angular/platform-browser";
 import { IBasicDocument } from 'src/app/models/IDocument';
 
 @Component({
-  selector: 'app-compare-panel',
-  templateUrl: './compare-panel.component.html',
-  styleUrls: ['./compare-panel.component.scss']
+  selector: 'app-viewer-panel',
+  templateUrl: './viewer-panel.component.html',
+  styleUrls: ['./viewer-panel.component.scss']
 })
-export class ComparePanelComponent implements OnInit {
+export class ViewerPanelComponent implements OnInit, OnChanges {
   webViewerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(environment.rxWebViewerUrl);
   webViewerUrlQ = this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.rxWebViewerUrl}?t=${Date.now()}`);
 
@@ -16,13 +16,15 @@ export class ComparePanelComponent implements OnInit {
   @ViewChild("panel", {static: false}) panel?: ElementRef<HTMLDivElement>;
   @Input() backgroundDocument: IBasicDocument | undefined;
   @Input() overlayDocument: IBasicDocument | undefined;
+  @Input() mode: 'compare' | 'view' = 'view';
+  @Input() viewDocument: IBasicDocument | undefined;
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private readonly sanitizer: DomSanitizer) {}
 
   isProgress: boolean = true;
   isExpandedView: boolean = false;
-  progressMessage: string = "It takes a few seconds to generate the comparison."
+  progressMessage: string = "";
   isFullScreenView: boolean = false;
 
   comparison: any = undefined;
@@ -61,8 +63,26 @@ export class ComparePanelComponent implements OnInit {
     }, false);
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["viewDocument"] && !changes["viewDocument"].isFirstChange()) {
+      this.onIframeLoad();
+    }
+    if (changes["mode"]) {
+      switch(this.mode) {
+        case "compare": {
+          this.progressMessage = "It takes a few seconds to generate the comparison.";
+          break;
+        }
+        case "view": {
+          this.progressMessage = "It takes a few seconds to open the file.";
+        }
+      }
+    }
+  }
+
   async onIframeLoad(): Promise<void> {
-    if (!this.backgroundDocument?.name || !this.overlayDocument?.name) return;
+    if (this.mode == "compare" && (!this.backgroundDocument?.name || !this.overlayDocument?.name)) return;
+    if (this.mode == "view" && !this.viewDocument?.name) return;
 
     this.isProgress = true;
 
@@ -75,13 +95,27 @@ export class ComparePanelComponent implements OnInit {
       }
     }, "*");
 
-    this.iframe?.nativeElement.contentWindow?.postMessage({
-      type: "compare",
-      payload: {
-        backgroundFileName: this.backgroundDocument.name,
-        overlayFileName: this.overlayDocument.name,
+    switch (this.mode) {
+      case 'view': {
+        this.iframe?.nativeElement.contentWindow?.postMessage({
+          type: "view",
+          payload: {
+            fileName: this.viewDocument?.name,
+          }
+        }, "*");
+        break;
       }
-    }, "*");
+      case 'compare': {
+        this.iframe?.nativeElement.contentWindow?.postMessage({
+          type: "compare",
+          payload: {
+            backgroundFileName: this.backgroundDocument?.name,
+            overlayFileName: this.overlayDocument?.name,
+          }
+        }, "*");
+        break;
+      }
+    }
   }
 
   onCloseClick(): void {
@@ -112,7 +146,7 @@ export class ComparePanelComponent implements OnInit {
 
   adjustingEvent = {
     isAdjusting: false,
-    width: '',
+    width: this.panelWidth,
   };
 
   startAdjusting(event: MouseEvent): void {
@@ -163,13 +197,27 @@ export class ComparePanelComponent implements OnInit {
   onExpandViewClick(): void {
     this.panelWidth = '100%';
 
-    if (this.activeFileIndex == 2) {
-      this.iframe?.nativeElement.contentWindow?.postMessage({
-        type: "guiMode",
-        payload: {
-          mode: "compare"
+    switch(this.mode) {
+      case "compare": {
+        if (this.activeFileIndex == 2) {
+          this.iframe?.nativeElement.contentWindow?.postMessage({
+            type: "guiMode",
+            payload: {
+              mode: "compare"
+            }
+          }, "*");
         }
-      }, "*");
+        break;
+      }
+      case "view": {
+        this.iframe?.nativeElement.contentWindow?.postMessage({
+          type: "guiMode",
+          payload: {
+            mode: "view"
+          }
+        }, "*");
+        break;
+      }
     }
 
     this.isExpandedView = true;

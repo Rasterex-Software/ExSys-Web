@@ -7,7 +7,7 @@ import { SideNavMenuComponent } from './components/side-nav-menu/side-nav-menu.c
 import { AppRoutingModule } from './app-routing.module';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { CheckboxComponent } from './components/common/checkbox/checkbox.component';
-import { ComparePanelComponent } from './components/compare-panel/compare-panel.component';
+import { ViewerPanelComponent } from './components/viewer-panel/viewer-panel.component';
 import { SimpleProgressComponent } from './components/common/simple-progress/simple-progress.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DropdownPanelComponent } from './components/common/dropdown-panel/dropdown-panel.component';
@@ -20,7 +20,7 @@ import { DropdownTriggerForDirective } from './components/common/dropdown-panel/
     SideNavMenuComponent,
     ProjectsComponent,
     CheckboxComponent,
-    ComparePanelComponent,
+    ViewerPanelComponent,
     SimpleProgressComponent,
     DropdownPanelComponent,
     DropdownTriggerForDirective

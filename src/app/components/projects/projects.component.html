@@ -66,7 +66,7 @@
                     <div class="td check">
                         <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !document.selected)" [value]="document.selected" (valueChange)="onCheck($event, document)"></co-checkbox>
                     </div>
-                    <div class="td">{{document.name}}</div>
+                    <div class="td name" (click)="onDocumentClick(document)">{{document.name}}</div>
                     <div class="td">{{document.title}}</div>
                     <div class="td"><span class="status" [class.completed]="document.status == 'Completed'" [class.in-progress]="document.status == 'In progress'">{{document.status}}</span></div>
                     <div class="td center">{{document.versions?.length}}</div>
@@ -90,7 +90,7 @@
                     <div class="td check">
                         <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !document.versions![0].selected)" [value]="document.versions![0].selected" (valueChange)="onCheck($event, document.versions![0])"></co-checkbox>
                     </div>
-                    <div class="td">{{document.versions![0].name}}</div>
+                    <div class="td name" (click)="onDocumentClick(document)">{{document.versions![0].name}}</div>
                     <div class="td">{{document.versions![0].name!.split('.')[0]}}</div>
                     <div class="td"><span class="status" [class.completed]="document.status == 'Completed'" [class.in-progress]="document.status == 'In progress'">{{document.status}}</span></div>
                     <div class="td center">{{document.versions?.length}}</div>
@@ -123,7 +123,7 @@
                             <div class="td check">
                                 <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !version.selected)" [value]="version.selected" (valueChange)="onCheck($event, version)"></co-checkbox>
                             </div>
-                            <div class="td">{{version.version | number : '2.0-2'}}</div>
+                            <div class="td name" (click)="onDocumentClick(version)">{{version.version | number : '2.0-2'}}</div>
                             <div class="td">{{version.description}}</div>
                             <div class="td">{{document.createdDate | date: "dd.MM.YYYY" }}</div>
                             <div class="td actions">
@@ -147,7 +147,7 @@
                             <div class="td check">
                                 <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !document.selected)" [value]="document.selected" (valueChange)="onCheck($event, document)"></co-checkbox>
                             </div>
-                            <div class="td">00</div>
+                            <div class="td name" (click)="onDocumentClick(document)">00</div>
                             <div class="td">...</div>
                             <div class="td">{{document.createdDate | date: "dd.MM.YYYY" }}</div>
                             <div class="td actions">
@@ -174,12 +174,20 @@
     </div>
 </div>
 
-<app-compare-panel
-    *ngIf="isCompare"
+<app-viewer-panel
+    *ngIf="isCompare && !viewDocument"
+    [mode]="'compare'"
     [backgroundDocument]="selectedDocuments[0]"
     [overlayDocument]="selectedDocuments[1]"
     (onClose)="onCloseCompare()">
-</app-compare-panel>
+</app-viewer-panel>
+
+<app-viewer-panel
+    *ngIf="!isCompare && viewDocument"
+    [mode]="'view'"
+    [viewDocument]="viewDocument"
+    (onClose)="onCloseView()">
+</app-viewer-panel>
 
 <ng-template #emptyVersionsTemplate>
     <div style="display: flex; align-items: center; justify-content: center; font-style: italic; height: 54px;">The document currently has no versions.</div>

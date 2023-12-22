@@ -112,6 +112,14 @@
                     justify-content: center;
                 }
 
+                &.name {
+                    cursor: pointer;
+
+                    &:hover {
+                        color: #0D41F9;
+                    }
+                }
+
                 &.actions {
                     padding: 0;
                     justify-content: flex-end;
