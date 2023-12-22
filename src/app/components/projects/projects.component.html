@@ -119,7 +119,7 @@
                             <div class="th">Date</div>
                             <div class="th"></div>
                         </div>
-                        <div class="row" *ngFor="let version of expandedDocument?.versions | slice:1">
+                        <div class="row" [class.background]="i % 2 == 0" *ngFor="let version of expandedDocument?.versions | slice:1; index as i;">
                             <div class="td check">
                                 <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !version.selected)" [value]="version.selected" (valueChange)="onCheck($event, version)"></co-checkbox>
                             </div>
@@ -143,7 +143,7 @@
                                 </co-dropdown-panel>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" [class.background]="expandedDocument?.versions!.length % 2 == 1">
                             <div class="td check">
                                 <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !document.selected)" [value]="document.selected" (valueChange)="onCheck($event, document)"></co-checkbox>
                             </div>

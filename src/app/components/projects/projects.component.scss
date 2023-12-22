@@ -54,6 +54,10 @@
             border-bottom: 1px solid #ECECEC;
             box-sizing: border-box;
 
+            &.background {
+                background-color: #FBFCFE;
+            }
+
             &.row-expandable {
                 &:not(:first-of-type) {
                     padding-top: 12px;
