@@ -115,7 +115,7 @@
                         <div class="row">
                             <div class="th"></div>
                             <div class="th">Revision</div>
-                            <div class="th">Description</div>
+                            <div class="th">Title</div>
                             <div class="th">Date</div>
                             <div class="th"></div>
                         </div>
@@ -124,7 +124,7 @@
                                 <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !version.selected)" [value]="version.selected" (valueChange)="onCheck($event, version)"></co-checkbox>
                             </div>
                             <div class="td name" (click)="onDocumentClick(version)">{{version.version | number : '2.0-2'}}</div>
-                            <div class="td">{{version.description}}</div>
+                            <div class="td">{{version.name!.split('.')[0]}}</div>
                             <div class="td">{{document.createdDate | date: "dd.MM.YYYY" }}</div>
                             <div class="td actions">
                                 <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -148,7 +148,7 @@
                                 <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !document.selected)" [value]="document.selected" (valueChange)="onCheck($event, document)"></co-checkbox>
                             </div>
                             <div class="td name" (click)="onDocumentClick(document)">00</div>
-                            <div class="td">...</div>
+                            <div class="td">{{document.title}}</div>
                             <div class="td">{{document.createdDate | date: "dd.MM.YYYY" }}</div>
                             <div class="td actions">
                                 <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
