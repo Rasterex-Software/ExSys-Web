@@ -64,7 +64,7 @@
                 </div>
                 <ng-container *ngIf="!document.versions?.length; else lastVersionTemplate">
                     <div class="td check">
-                        <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !document.selected)" [value]="document.selected" (valueChange)="onCheck($event, document)"></co-checkbox>
+                        <co-checkbox [disabled]="mode == 'compare' || (selectedDocuments.length == 2 && !document.selected)" [value]="document.selected" (valueChange)="onCheck($event, document)"></co-checkbox>
                     </div>
                     <div class="td name" (click)="onDocumentClick(document)">{{document.name}}</div>
                     <div class="td">{{document.title}}</div>
@@ -80,6 +80,9 @@
                         </svg>
                         <co-dropdown-panel #dropdown>
                             <ul class="row-dropdown-options">
+                                <li (click)="onDocumentClick(document)">View</li>
+                                <li (click)="onDownloadDocumentClick(document)">Download</li>
+                                <li (click)="onPrintDocumentClick(document)">Print</li>
                                 <li (click)="onDeleteDocumentClick(document)">Delete</li>
                                 <li (click)="onUploadVersionClick(document)">Upload version</li>
                             </ul>
@@ -88,7 +91,7 @@
                 </ng-container>
                 <ng-template #lastVersionTemplate>
                     <div class="td check">
-                        <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !document.versions![0].selected)" [value]="document.versions![0].selected" (valueChange)="onCheck($event, document.versions![0])"></co-checkbox>
+                        <co-checkbox [disabled]="mode == 'compare' || (selectedDocuments.length == 2 && !document.versions![0].selected)" [value]="document.versions![0].selected" (valueChange)="onCheck($event, document.versions![0])"></co-checkbox>
                     </div>
                     <div class="td name" (click)="onDocumentClick(document)">{{document.versions![0].name}}</div>
                     <div class="td">{{document.versions![0].name!.split('.')[0]}}</div>
@@ -104,6 +107,9 @@
                         </svg>
                         <co-dropdown-panel #dropdown>
                             <ul class="row-dropdown-options">
+                                <li (click)="onDocumentClick(document)">View</li>
+                                <li (click)="onDownloadDocumentClick(document)">Download</li>
+                                <li (click)="onPrintDocumentClick(document)">Print</li>
                                 <li (click)="onDeleteDocumentClick(document)">Delete</li>
                                 <li (click)="onUploadVersionClick(document)">Upload version</li>
                             </ul>
@@ -121,7 +127,7 @@
                         </div>
                         <div class="row" [class.background]="i % 2 == 0" *ngFor="let version of expandedDocument?.versions; index as i;">
                             <div class="td check">
-                                <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !version.selected)" [value]="version.selected" (valueChange)="onCheck($event, version)"></co-checkbox>
+                                <co-checkbox [disabled]="mode == 'compare' || (selectedDocuments.length == 2 && !version.selected)" [value]="version.selected" (valueChange)="onCheck($event, version)"></co-checkbox>
                             </div>
                             <div class="td name" (click)="onDocumentClick(version)">{{version.version | number : '2.0-2'}}</div>
                             <div class="td">{{version.name!.split('.')[0]}}</div>
@@ -138,6 +144,9 @@
                                 </svg>
                                 <co-dropdown-panel #dropdown>
                                     <ul class="row-dropdown-options">
+                                        <li (click)="onDocumentClick(version)">View</li>
+                                        <li (click)="onDownloadDocumentClick(version)">Download</li>
+                                        <li (click)="onPrintDocumentClick(version)">Print</li>
                                         <li (click)="onDeleteVersionClick(document, version)">Delete</li>
                                     </ul>
                                 </co-dropdown-panel>
@@ -145,7 +154,7 @@
                         </div>
                         <div class="row" [class.background]="expandedDocument?.versions!.length % 2 == 1">
                             <div class="td check">
-                                <co-checkbox [disabled]="isCompare || (selectedDocuments.length == 2 && !document.selected)" [value]="document.selected" (valueChange)="onCheck($event, document)"></co-checkbox>
+                                <co-checkbox [disabled]="mode == 'compare' || (selectedDocuments.length == 2 && !document.selected)" [value]="document.selected" (valueChange)="onCheck($event, document)"></co-checkbox>
                             </div>
                             <div class="td name" (click)="onDocumentClick(document)">00</div>
                             <div class="td">{{document.title}}</div>
@@ -175,7 +184,7 @@
 </div>
 
 <app-viewer-panel
-    *ngIf="isCompare && !viewDocument"
+    *ngIf="mode == 'compare'"
     [mode]="'compare'"
     [backgroundDocument]="selectedDocuments[0]"
     [overlayDocument]="selectedDocuments[1]"
@@ -183,8 +192,8 @@
 </app-viewer-panel>
 
 <app-viewer-panel
-    *ngIf="!isCompare && viewDocument"
-    [mode]="'view'"
+    *ngIf="mode == 'view' || mode == 'print' || mode == 'download'"
+    [mode]="mode"
     [viewDocument]="viewDocument"
     (onClose)="onCloseView()">
 </app-viewer-panel>
@@ -208,3 +217,15 @@
     accept=".pdf, .dwg, .dgn, .plt"
     onclick="clickedDocument = undefined; this.value = null;"
     (change)="onDocumentVersionUpload($event)" />
+
+<co-modal-dialog *ngIf="confirmDelete" (onClose)="onConfirmDeleteClose()">
+    <h4 class="modal-dialog-title">Confirm operation</h4>
+    <div class="modal-dialog-body">
+        {{confirmDeleteMessage}}
+    </div>
+    <div class="modal-dialog-footer">
+        <button class="btn btn-simple" (click)="onConfirmDeleteClose()">Cancel</button>
+        <div class="separator"></div>
+        <button class="btn btn-primary btn-inverse" (click)="onConfirmDeleteOk()">Confirm</button>
+    </div>
+</co-modal-dialog>

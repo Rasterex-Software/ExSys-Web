@@ -12,6 +12,7 @@ import { SimpleProgressComponent } from './components/common/simple-progress/sim
 import { HttpClientModule } from '@angular/common/http';
 import { DropdownPanelComponent } from './components/common/dropdown-panel/dropdown-panel.component';
 import { DropdownTriggerForDirective } from './components/common/dropdown-panel/dropdown-panel.directive';
+import { ModalDialogComponent } from './components/common/modal-dialog/modal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DropdownTriggerForDirective } from './components/common/dropdown-panel/
     ViewerPanelComponent,
     SimpleProgressComponent,
     DropdownPanelComponent,
-    DropdownTriggerForDirective
+    DropdownTriggerForDirective,
+    ModalDialogComponent
   ],
   imports: [
     BrowserModule,

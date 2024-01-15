@@ -12,6 +12,8 @@ export class ProjectsComponent implements OnInit {
   @ViewChild("documentUpload", {static: false}) documentUpload?: ElementRef<HTMLIFrameElement>;
   @ViewChild("versionUpload", {static: false}) versionUpload?: ElementRef<HTMLIFrameElement>;
 
+  confirmDelete: boolean = false;
+
   constructor(
     private readonly documentsService: DocumentsService,
     private readonly rxServerService: RxServerService
@@ -23,10 +25,13 @@ export class ProjectsComponent implements OnInit {
 
   documents: Array<IDocument> = [];
   selectedDocuments: Array<IBasicDocument> = [];
-  isCompare: boolean = false;
+  //isCompare: boolean = false;
   expandedDocument: IDocument | undefined = undefined;
   clickedDocument: IBasicDocument | undefined = undefined;
+  clickedVersion: IBasicDocument | undefined = undefined;
   viewDocument: IBasicDocument | undefined = undefined;
+  confirmDeleteMessage: string | undefined = undefined;
+  mode: 'compare' | 'view' | 'print' | 'download' | undefined = undefined;
 
   onCheck(value: boolean, document: IBasicDocument | undefined): void {
     if (!document) return;
@@ -43,14 +48,14 @@ export class ProjectsComponent implements OnInit {
       this.selectedDocuments = this.selectedDocuments.filter(doc => doc.id !== document.id);
     }
 
-    if (this.isCompare && this.selectedDocuments.length != 2) {
-      this.isCompare = false;
+    if (this.mode == 'compare' && this.selectedDocuments.length != 2) {
+      this.mode = undefined;
     }
   }
 
   onCompareClick(): void {
     this.viewDocument = undefined;
-    this.isCompare = true;
+    this.mode = 'compare';
   }
 
   onExpandClick(document: IDocument): void {
@@ -84,10 +89,9 @@ export class ProjectsComponent implements OnInit {
   }
 
   async onDeleteDocumentClick(document: IDocument): Promise<void> {
-    if (confirm("Are You sure?")) {
-      await this.documentsService.delete(document.id);
-      this.documents = this.documents.filter(doc => doc.id !== document.id);
-    }
+    this.clickedDocument = document;
+    this.confirmDeleteMessage = `Are you sure you want ti delete the ${document.name} file with all of its revisions?`;
+    this.confirmDelete = true;
   }
 
   onUploadVersionClick(document: IDocument): void {
@@ -96,20 +100,19 @@ export class ProjectsComponent implements OnInit {
   }
 
   async onDeleteVersionClick(document: IDocument, version: IDocumentVersion): Promise<void> {
-    if (confirm("Are You sure?")) {
-      await this.documentsService.deleteVersion(version.id);
-      document.versions = document.versions?.filter(ver => ver.id !== version.id);
-    }
+    this.clickedDocument = document;
+    this.clickedVersion = version;
+    this.confirmDeleteMessage = `Are you sure you want to delete the revision ${version.name}?`;
+    this.confirmDelete = true;
   }
 
   onDocumentClick(document: IBasicDocument): void {
-    this.viewDocument = undefined;
-    this.isCompare = false;
     this.viewDocument = document;
+    this.mode = 'view';
   }
 
   onCloseCompare(): void {
-    this.isCompare = false;
+    this.mode = undefined;
 
     this.selectedDocuments.forEach(selectedDocument => {
       if (selectedDocument.documentId) {
@@ -133,5 +136,35 @@ export class ProjectsComponent implements OnInit {
 
   onCloseView(): void {
     this.viewDocument = undefined;
+    this.mode = undefined;
+  }
+
+  onConfirmDeleteClose(): void {
+    this.confirmDelete = false;
+    this.clickedVersion = undefined;
+    this.clickedDocument = undefined;
+    this.confirmDeleteMessage = undefined;
+  }
+
+  async onConfirmDeleteOk(): Promise<void> {
+    if (this.clickedVersion) {
+      await this.documentsService.deleteVersion(this.clickedVersion.id);
+      (this.clickedDocument as IDocument).versions = (this.clickedDocument as IDocument).versions?.filter(ver => ver.id !== this.clickedVersion?.id);
+    } else if (this.clickedDocument) {
+      await this.documentsService.delete(this.clickedDocument.id);
+      this.documents = this.documents.filter(doc => doc.id !== this.clickedDocument?.id);
+    }
+
+    this.onConfirmDeleteClose();
+  }
+
+  onPrintDocumentClick(document: IDocument): void {
+    this.viewDocument = document;
+    this.mode = 'print';
+  }
+
+  onDownloadDocumentClick(document: IDocument): void {
+    this.viewDocument = document;
+    this.mode = 'download';
   }
 }

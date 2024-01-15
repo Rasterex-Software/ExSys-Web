@@ -16,7 +16,7 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
   @ViewChild("panel", {static: false}) panel?: ElementRef<HTMLDivElement>;
   @Input() backgroundDocument: IBasicDocument | undefined;
   @Input() overlayDocument: IBasicDocument | undefined;
-  @Input() mode: 'compare' | 'view' = 'view';
+  @Input() mode: 'compare' | 'view' | 'download' | 'print' = 'view';
   @Input() viewDocument: IBasicDocument | undefined;
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
 
@@ -58,6 +58,11 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
           if (!this.isProgress) {
             this.activeFileIndex = event.data.payload.index;
           }
+          break;
+        }
+        case "downloadEnd": {
+          this.onClose.emit();
+          break;
         }
       }
     }, false);
@@ -73,8 +78,14 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
           this.progressMessage = "It takes a few seconds to generate the comparison.";
           break;
         }
-        case "view": {
+        case "download": {
+          this.progressMessage = "It takes a few seconds to export the file.";
+          break;
+        }
+        case "view":
+        case "print": {
           this.progressMessage = "It takes a few seconds to open the file.";
+          break;
         }
       }
     }
@@ -96,9 +107,11 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
     }, "*");
 
     switch (this.mode) {
-      case 'view': {
+      case 'view':
+      case 'print':
+      case 'download': {
         this.iframe?.nativeElement.contentWindow?.postMessage({
-          type: "view",
+          type: this.mode,
           payload: {
             fileName: this.viewDocument?.name,
           }

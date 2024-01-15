@@ -12,6 +12,10 @@ html {
     overflow: hidden;
 }
 
+.hidden {
+    display: none;
+}
+
 /* button */
 .btn {
     border: none;
@@ -23,6 +27,11 @@ html {
     &:disabled {
         cursor: not-allowed;
         opacity: .5;
+    }
+
+    &.btn-simple {
+        background: transparent;
+        color: $button-primary-color;
     }
 
     &.btn-primary {
@@ -84,4 +93,34 @@ html {
           -ms-user-select: none; /* Internet Explorer/Edge */
               user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
+}
+
+/*  */
+.modal-dialog-title {
+    color: #2C3648;
+    font-size: 20px;
+    padding: 0 24px;
+    margin: 0;
+}
+
+.modal-dialog-body {
+    color: #606C82;
+    font-size: 14px;
+    padding: 10px 24px;
+}
+
+.modal-dialog-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid #F4F4F4;
+    padding: 24px;
+
+    .separator {
+        width: 1px;
+        height: 32px;
+        margin: 0 12px;
+        background-color: #ECECEC;
+    }
 }
