@@ -1,7 +1,9 @@
 import { Component, ViewChild, ElementRef, OnInit, Input, Output, EventEmitter, HostListener, OnChanges, SimpleChanges } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { DomSanitizer } from "@angular/platform-browser";
-import { IBasicDocument } from 'src/app/models/IDocument';
+import { IBasicDocument, IDocument } from 'src/app/models/IDocument';
+import { RxServerService } from 'src/app/services/rxserver.service';
+import { DocumentsService } from 'src/app/services/documents.service';
 
 @Component({
   selector: 'app-viewer-panel',
@@ -19,19 +21,24 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
   @Input() mode: 'compare' | 'view' | 'download' | 'print' = 'view';
   @Input() viewDocument: IBasicDocument | undefined;
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onDocumentCreate: EventEmitter<IDocument> = new EventEmitter<IDocument>();
 
-  constructor(private readonly sanitizer: DomSanitizer) {}
+  constructor(
+    private readonly sanitizer: DomSanitizer,
+    private readonly rxServerService: RxServerService,
+    private readonly documentsService: DocumentsService) {}
 
   isProgress: boolean = true;
   isExpandedView: boolean = false;
   progressMessage: string = "";
   isFullScreenView: boolean = false;
-
   comparison: any = undefined;
   activeFileIndex: number = 2;
+  comparisonMarkupChanged: boolean = false;
+  unsavedChanges: boolean = false;
 
   ngOnInit(): void {
-    window.addEventListener("message", (event) => {
+    window.addEventListener("message", async (event) => {
       switch (event.data.type) {
         case "progressStart": {
           this.progressMessage = event.data.message;
@@ -62,6 +69,19 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
         }
         case "downloadEnd": {
           this.onClose.emit();
+          break;
+        }
+        case "compareSaveComplete": {
+          const outputName = event.data.payload;
+          const document = await this.documentsService.create(outputName);
+          this.onDocumentCreate.emit(document);
+          break;
+        }
+        case "comparisonMarkupChanged": {
+          if (this.mode == 'compare')
+          {
+            this.comparisonMarkupChanged = event.data.payload;
+          }
           break;
         }
       }
@@ -132,16 +152,53 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
   }
 
   onCloseClick(): void {
-    this.onClose.emit();
+    if (this.comparisonMarkupChanged) {
+      this.unsavedChanges = true;
+    } else {
+      this.onClose.emit();
+    }
   }
 
-  onSavaAsPDFClick(): void {
-    this.iframe?.nativeElement.contentWindow?.postMessage({
-      type: "export",
-      payload: {
-        isPDF: true
+  async onSaveOptionSelect(option: any): Promise<void> {
+    switch (option?.value) {
+      case 0: {
+        this.iframe?.nativeElement.contentWindow?.postMessage({
+          type: "compareSave",
+          payload: {
+            comparison: this.comparison,
+            outputName: `Comparison of revision ${this.backgroundDocument?.version || '0'} and ${this.overlayDocument?.version || '0'}.pdf`
+          }
+        }, "*");
+        break;
       }
-    }, "*");
+      case 1: {
+        this.iframe?.nativeElement.contentWindow?.postMessage({
+          type: "export",
+          payload: {
+            isPDF: true
+          }
+        }, "*");
+        break;
+      }
+      case 2: {
+        this.iframe?.nativeElement.contentWindow?.postMessage({
+          type: "export",
+          payload: {
+            isPDF: true
+          }
+        }, "*");
+        this.iframe?.nativeElement.contentWindow?.postMessage({
+          type: "compareSave",
+          payload: {
+            comparison: this.comparison,
+            outputName: `Comparison of revision ${this.backgroundDocument?.version || '0'} and ${this.overlayDocument?.version || '0'}.pdf`
+          }
+        }, "*");
+        break;
+      }
+    }
+
+    this.unsavedChanges = this.comparisonMarkupChanged = false;
   }
 
   onOpenInViewerClick(): void {
@@ -271,5 +328,13 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
     }, "*");
 
     this.isFullScreenView = false;
+  }
+
+  onDiscardUnsavedChanges(): void {
+    this.onClose.emit();
+  }
+
+  onCancelUnsavedChanges(): void {
+    this.unsavedChanges = false;
   }
 }

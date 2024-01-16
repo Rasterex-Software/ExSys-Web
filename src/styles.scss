@@ -46,6 +46,14 @@ html {
             background-color: $button-primary-color;
         }
     }
+
+    &.btn-light {
+        border-radius: 20px;
+        padding: 8px 20px;
+        background-color: #E7ECFE;
+        border: 1px solid $button-primary-color;
+        color: $button-primary-color;
+    }
 }
 
 /* nav tabs */

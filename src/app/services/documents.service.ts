@@ -13,10 +13,11 @@ export class DocumentsService {
         return result.data;
     }
 
-    public async create(file: File): Promise<IDocument> {
+    public async create(file: File | string): Promise<IDocument> {
+        const fileName = file instanceof File ? file.name : file;
         const result: any = await this.httpService.post('/documents', {
-            name: file.name,
-            title: file.name.split('.')[0],
+            name: fileName,
+            title: fileName.split('.')[0],
             status: "In progress",
         });
         return result;

@@ -25,7 +25,6 @@ export class ProjectsComponent implements OnInit {
 
   documents: Array<IDocument> = [];
   selectedDocuments: Array<IBasicDocument> = [];
-  //isCompare: boolean = false;
   expandedDocument: IDocument | undefined = undefined;
   clickedDocument: IBasicDocument | undefined = undefined;
   clickedVersion: IBasicDocument | undefined = undefined;
@@ -132,6 +131,11 @@ export class ProjectsComponent implements OnInit {
     });
 
     this.selectedDocuments = [];
+  }
+
+  onDocumentCreate(document: IDocument): void {
+    this.documents.push(document);
+    this.onCloseCompare();
   }
 
   onCloseView(): void {

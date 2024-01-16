@@ -34,4 +34,9 @@ export class RxServerService {
             xhr.send(file);
         });
     }
+
+    public async fetchFileFromCache(relativePath: string): Promise<Blob | undefined> {
+        if (!relativePath?.startsWith("/cache/")) return undefined;
+        return await (await fetch(`${this.baseUrl}/RxBinWeb${relativePath}`)).blob();
+    }
 }

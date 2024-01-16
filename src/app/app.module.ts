@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DropdownPanelComponent } from './components/common/dropdown-panel/dropdown-panel.component';
 import { DropdownTriggerForDirective } from './components/common/dropdown-panel/dropdown-panel.directive';
 import { ModalDialogComponent } from './components/common/modal-dialog/modal-dialog.component';
+import { SaveComparisonMenuComponent } from './components/viewer-panel/save-comparison-menu/save-comparison-menu.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ModalDialogComponent } from './components/common/modal-dialog/modal-dia
     SimpleProgressComponent,
     DropdownPanelComponent,
     DropdownTriggerForDirective,
-    ModalDialogComponent
+    ModalDialogComponent,
+    SaveComparisonMenuComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,119 @@
+.save-comparison-menu-container {
+    .save-comparison-menu {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+
+        .save-comparison-menu-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            width: 64px;
+            border: 1px solid #0D41F9;
+            border-radius: 20px 0 0 20px;
+            color: #0D41F9;
+            font-weight: 700;
+        }
+
+        .save-comparison-menu-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            width: 36px;
+            border-top: 1px solid #0D41F9;
+            border-right: 1px solid #0D41F9;
+            border-bottom: 1px solid #0D41F9;
+            border-radius: 0 20px 20px 0;
+            cursor: pointer;
+
+            &.opened {
+                background-color: #E7ECFE;
+                svg {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
+
+    .options-wrapper {
+        position: relative;
+
+        .options-container {
+            position: absolute;
+            top: 3px;
+            z-index: 10;
+            background: #FFFFFF;
+            box-shadow: 0px 0px 8px 0px #333C4E33;
+            border-radius: 6px;
+            right: 0;
+            padding: 6px 0 6px 0;
+
+            &.drop-position-top {
+                top: -40px;
+                transform: translateY(-100%);
+            }
+
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+
+                li {
+                    padding: 6px 12px;
+                    cursor: pointer;
+                    white-space: nowrap;
+                    font-size: 14px;
+                    color: #2C3648;
+
+                    &:hover {
+                        background-color: #F3F5FA;
+                    }
+                }
+            }
+        }
+    }
+
+    &.primary {
+        .save-comparison-menu {
+            .save-comparison-menu-title {
+                background-color: #0D41F9;
+                color: #FFFFFF;
+            }
+
+            .save-comparison-menu-button {
+                border-left: 1px solid #FFFFFF;
+                background-color: #0D41F9;
+                color: #FFFFFF;
+
+                svg {
+                    path[stroke] {
+                        stroke: #FFFFFF;
+                    }
+                }
+
+                &.opened {
+                    background-color: #0934CE;
+                }
+            }
+        }
+
+        .options-wrapper {
+            .options-container {
+                ul {
+                    li {
+                        color: #2C3648;
+                        &:hover {
+                            background-color: #0D41F9;
+                            color: #FFFFFF;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

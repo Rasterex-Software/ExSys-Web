@@ -39,7 +39,7 @@
                             <path d="M17.5008 1.66602H15.0008C14.7798 1.66602 14.5678 1.75381 14.4115 1.91009C14.2553 2.06637 14.1675 2.27834 14.1675 2.49935C14.1675 2.72036 14.2553 2.93232 14.4115 3.0886C14.5678 3.24489 14.7798 3.33268 15.0008 3.33268H15.4925L9.40914 9.40768C9.25222 9.5646 9.16406 9.77743 9.16406 9.99935C9.16406 10.2213 9.25222 10.4341 9.40914 10.591C9.56606 10.7479 9.77889 10.8361 10.0008 10.8361C10.2227 10.8361 10.4356 10.7479 10.5925 10.591L16.6675 4.50768V4.99935C16.6675 5.22036 16.7553 5.43232 16.9115 5.5886C17.0678 5.74488 17.2798 5.83268 17.5008 5.83268C17.7218 5.83268 17.9338 5.74488 18.0901 5.5886C18.2463 5.43232 18.3341 5.22036 18.3341 4.99935V2.49935C18.3341 2.27834 18.2463 2.06637 18.0901 1.91009C17.9338 1.75381 17.7218 1.66602 17.5008 1.66602Z" fill="#0D41F9"/>
                         </svg>
                     </div>
-                    <button *ngIf="comparison" (click)="onSavaAsPDFClick()" class="btn btn-primary">Save as PDF</button>
+                    <co-save-comparison-menu (onSelect)="onSaveOptionSelect($event)"></co-save-comparison-menu>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
             <div class="hr"></div>
 
             <div style="width: 100%; display: flex; align-items: center; justify-content: flex-end; padding: 10px 0 16px 0;">
-                <button (click)="onSavaAsPDFClick()" class="btn btn-primary">Save as PDF</button>
+                <co-save-comparison-menu [dropPosition]="'top'" (onSelect)="onSaveOptionSelect($event)"></co-save-comparison-menu>
             </div>
 
             <div class="footer-wrapper">
@@ -89,9 +89,21 @@
     </div>
 </div>
 
-
 <div *ngIf="mode == 'download'" class="simple-progress-wrapper">
     <co-simple-progress>
         It takes a few seconds to prepare file for download
     </co-simple-progress>
 </div>
+
+<co-modal-dialog *ngIf="unsavedChanges" (onClose)="onCancelUnsavedChanges()">
+    <h4 class="modal-dialog-title">Unsaved changes</h4>
+    <div class="modal-dialog-body">
+        You have made changes to the comparison. Are you sure to close page without saving?
+    </div>
+    <div class="modal-dialog-footer">
+        <button class="btn btn-simple" (click)="onCancelUnsavedChanges()">Cancel</button>
+        <div class="separator"></div>
+        <button class="btn btn-light" (click)="onDiscardUnsavedChanges()">Discard</button>
+        <co-save-comparison-menu [dropPosition]="'top'" [color]="'primary'" (onSelect)="onSaveOptionSelect($event)"></co-save-comparison-menu>
+    </div>
+</co-modal-dialog>
