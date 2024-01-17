@@ -144,6 +144,7 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
           payload: {
             backgroundFileName: this.backgroundDocument?.name,
             overlayFileName: this.overlayDocument?.name,
+            outputName: `Comparison of revision ${this.backgroundDocument?.version || '0'} and ${this.overlayDocument?.version || '0'}.pdf`
           }
         }, "*");
         break;
@@ -165,7 +166,6 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
         this.iframe?.nativeElement.contentWindow?.postMessage({
           type: "compareSave",
           payload: {
-            comparison: this.comparison,
             outputName: `Comparison of revision ${this.backgroundDocument?.version || '0'} and ${this.overlayDocument?.version || '0'}.pdf`
           }
         }, "*");
@@ -190,7 +190,6 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
         this.iframe?.nativeElement.contentWindow?.postMessage({
           type: "compareSave",
           payload: {
-            comparison: this.comparison,
             outputName: `Comparison of revision ${this.backgroundDocument?.version || '0'} and ${this.overlayDocument?.version || '0'}.pdf`
           }
         }, "*");
