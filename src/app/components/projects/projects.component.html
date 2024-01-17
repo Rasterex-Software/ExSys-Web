@@ -152,7 +152,7 @@
                                 </co-dropdown-panel>
                             </div>
                         </div>
-                        <div class="row" [class.background]="expandedDocument?.versions!.length % 2 == 1">
+                        <div class="row" [class.background]="expandedDocument?.versions!.length % 2 == 0">
                             <div class="td check">
                                 <co-checkbox [disabled]="mode == 'compare' || (selectedDocuments.length == 2 && !document.selected)" [value]="document.selected" (valueChange)="onCheck($event, document)"></co-checkbox>
                             </div>
