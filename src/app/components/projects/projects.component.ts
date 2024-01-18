@@ -79,6 +79,7 @@ export class ProjectsComponent implements OnInit {
   async onDocumentVersionUpload(event: any): Promise<void> {
     const file = event.target.files[0];
     if (this.clickedDocument) {
+      await this.rxServerService.uploadFile(file);
       const version = await this.documentsService.createVersion(this.clickedDocument.id, file);
       const document = this.documents.find(doc => doc.id == this.clickedDocument?.id);
       if (document) {
