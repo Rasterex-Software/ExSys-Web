@@ -300,6 +300,10 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
       }
     }
 
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "zoomWidth"
+    }, "*");
+
     this.isExpandedView = true;
   }
 
@@ -311,6 +315,10 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
       payload: {
         mode: "view"
       }
+    }, "*");
+
+    this.iframe?.nativeElement.contentWindow?.postMessage({
+      type: "zoomWidth"
     }, "*");
 
     this.isExpandedView = false;
