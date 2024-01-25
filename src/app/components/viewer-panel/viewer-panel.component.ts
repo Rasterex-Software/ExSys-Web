@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, OnInit, Input, Output, EventEmitter, HostListener, OnChanges, SimpleChanges } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { DomSanitizer } from "@angular/platform-browser";
-import { IBasicDocument, IDocument } from 'src/app/models/IDocument';
+import { IBasicDocument, IDocument, IDocumentVersion } from 'src/app/models/IDocument';
 import { RxServerService } from 'src/app/services/rxserver.service';
 import { DocumentsService } from 'src/app/services/documents.service';
 
@@ -21,11 +21,10 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
   @Input() mode: 'compare' | 'view' | 'download' | 'print' = 'view';
   @Input() viewDocument: IBasicDocument | undefined;
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
-  @Output() onDocumentCreate: EventEmitter<IDocument> = new EventEmitter<IDocument>();
+  @Output() onVersionCreate: EventEmitter<IDocumentVersion> = new EventEmitter<IDocumentVersion>();
 
   constructor(
     private readonly sanitizer: DomSanitizer,
-    private readonly rxServerService: RxServerService,
     private readonly documentsService: DocumentsService) {}
 
   isProgress: boolean = true;
@@ -73,8 +72,20 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
         }
         case "compareSaveComplete": {
           const outputName = event.data.payload;
-          const document = await this.documentsService.create(outputName);
-          this.onDocumentCreate.emit(document);
+          let documentId: number | undefined = undefined;
+          if (this.backgroundDocument?.documentId === undefined) {
+            documentId = this.backgroundDocument?.id;
+          } else if (this.overlayDocument?.documentId === undefined) {
+            documentId = this.overlayDocument?.id;
+          } else {
+            documentId = this.backgroundDocument?.documentId;
+          }
+          if (documentId != undefined) {
+            const document = await this.documentsService.createVersion(documentId, outputName);
+            this.onVersionCreate.emit(document);
+          } else {
+            alert('Something went wrong');
+          }
           break;
         }
         case "comparisonMarkupChanged": {

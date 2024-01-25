@@ -27,9 +27,10 @@ export class DocumentsService {
         await this.httpService.delete(`/documents/${documentId}`);
     }
 
-    public async createVersion(documentId: number, file: File): Promise<IDocumentVersion> {
+    public async createVersion(documentId: number, file: File | string): Promise<IDocumentVersion> {
+        const fileName = file instanceof File ? file.name : file;
         const result: any = await this.httpService.post(`/documents/${documentId}/versions`, {
-            name: file.name,
+            name: fileName,
             description: "...",
         });
         return result;

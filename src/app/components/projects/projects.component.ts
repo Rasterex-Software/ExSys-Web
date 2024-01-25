@@ -134,9 +134,13 @@ export class ProjectsComponent implements OnInit {
     this.selectedDocuments = [];
   }
 
-  onDocumentCreate(document: IDocument): void {
-    this.documents.push(document);
+  onVersionCreate(version: IDocumentVersion): void {
     this.onCloseCompare();
+
+    const currentDocument = this.documents.find(doc => doc.id == version.documentId);
+    if (currentDocument) {
+      currentDocument.versions?.unshift(version);
+    }
   }
 
   onCloseView(): void {
