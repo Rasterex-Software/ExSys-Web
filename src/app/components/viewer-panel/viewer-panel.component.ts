@@ -88,7 +88,7 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
             this.onVersionCreate.emit(document);
             this.compareSaveIsInProgress = false;
           } else {
-            alert('Something went wrong');
+            console.warn('Something went wrong: can not define document id.');
           }
           break;
         }
