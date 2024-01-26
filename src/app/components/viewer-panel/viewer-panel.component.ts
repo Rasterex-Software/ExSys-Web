@@ -1,8 +1,7 @@
 import { Component, ViewChild, ElementRef, OnInit, Input, Output, EventEmitter, HostListener, OnChanges, SimpleChanges } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { DomSanitizer } from "@angular/platform-browser";
-import { IBasicDocument, IDocument, IDocumentVersion } from 'src/app/models/IDocument';
-import { RxServerService } from 'src/app/services/rxserver.service';
+import { IBasicDocument, IDocumentVersion } from 'src/app/models/IDocument';
 import { DocumentsService } from 'src/app/services/documents.service';
 
 @Component({
@@ -35,6 +34,7 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
   activeFileIndex: number = 2;
   comparisonMarkupChanged: boolean = false;
   unsavedChanges: boolean = false;
+  compareSaveIsInProgress: boolean = false;
 
   ngOnInit(): void {
     window.addEventListener("message", async (event) => {
@@ -71,6 +71,9 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
           break;
         }
         case "compareSaveComplete": {
+          if (this.compareSaveIsInProgress) return;
+
+          this.compareSaveIsInProgress = true;
           const outputName = event.data.payload;
           let documentId: number | undefined = undefined;
           if (this.backgroundDocument?.documentId === undefined) {
@@ -83,6 +86,7 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
           if (documentId != undefined) {
             const document = await this.documentsService.createVersion(documentId, outputName);
             this.onVersionCreate.emit(document);
+            this.compareSaveIsInProgress = false;
           } else {
             alert('Something went wrong');
           }

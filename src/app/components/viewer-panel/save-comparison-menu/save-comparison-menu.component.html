@@ -1,6 +1,6 @@
 <div class="save-comparison-menu-container" [class.primary]="color == 'primary'">
     <div class="save-comparison-menu">
-        <div class="save-comparison-menu-title">Save</div>
+        <div (click)="onOptionSelect(options[0])" class="save-comparison-menu-title">Save</div>
         <div class="save-comparison-menu-button" [class.opened]="opened" (click)="opened = !opened">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M3.73333 5.86663L8 10.1333" stroke="#0D41F9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
