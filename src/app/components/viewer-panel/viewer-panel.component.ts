@@ -304,11 +304,13 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
       }
     }
 
-    this.iframe?.nativeElement.contentWindow?.postMessage({
-      type: "zoomWidth"
-    }, "*");
-
     this.isExpandedView = true;
+
+    setTimeout(() => {
+      this.iframe?.nativeElement.contentWindow?.postMessage({
+        type: "zoomWidth"
+      }, "*");
+    }, 50);
   }
 
   onMinimizeViewClick(): void {
@@ -321,11 +323,13 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
       }
     }, "*");
 
-    this.iframe?.nativeElement.contentWindow?.postMessage({
-      type: "zoomWidth"
-    }, "*");
-
     this.isExpandedView = false;
+
+    setTimeout(() => {
+      this.iframe?.nativeElement.contentWindow?.postMessage({
+        type: "zoomWidth"
+      }, "*");
+    }, 50);
   }
 
   onFullScreenOpen(): void {
