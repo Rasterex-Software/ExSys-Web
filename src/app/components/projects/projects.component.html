@@ -93,8 +93,8 @@
                     <div class="td check">
                         <co-checkbox [disabled]="mode == 'compare' || (selectedDocuments.length == 2 && !document.versions![0].selected)" [value]="document.versions![0].selected" (valueChange)="onCheck($event, document.versions![0])"></co-checkbox>
                     </div>
-                    <div class="td name" (click)="onDocumentClick(document)">{{document.versions![0].name}}</div>
-                    <div class="td" (click)="onDocumentClick(document)">{{document.versions![0].name!.split('.')[0]}}</div>
+                    <div class="td name" (click)="onDocumentClick(document.versions![0])">{{document.versions![0].name}}</div>
+                    <div class="td" (click)="onDocumentClick(document.versions![0])">{{document.versions![0].name!.split('.')[0]}}</div>
                     <div class="td"><span class="status" [class.completed]="document.status == 'Completed'" [class.in-progress]="document.status == 'In progress'">{{document.status}}</span></div>
                     <div class="td center">{{document.versions?.length}}</div>
                     <div class="td">{{document.versions![0].createdDate | date: "dd.MM.YYYY" }}</div>
