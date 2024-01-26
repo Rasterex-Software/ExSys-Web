@@ -156,6 +156,8 @@ export class ProjectsComponent implements OnInit {
   }
 
   async onConfirmDeleteOk(): Promise<void> {
+    this.onCheck(false, this.clickedVersion || this.clickedDocument);
+
     if (this.clickedVersion) {
       await this.documentsService.deleteVersion(this.clickedVersion.id);
       (this.clickedDocument as IDocument).versions = (this.clickedDocument as IDocument).versions?.filter(ver => ver.id !== this.clickedVersion?.id);
