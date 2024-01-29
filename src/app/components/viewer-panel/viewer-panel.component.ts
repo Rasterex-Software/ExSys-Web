@@ -21,6 +21,8 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
   @Input() viewDocument: IBasicDocument | undefined;
   @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
   @Output() onVersionCreate: EventEmitter<IDocumentVersion> = new EventEmitter<IDocumentVersion>();
+  backgroundColor: string = "#E86767";
+  overlayColor: string = "#0E3BD8";
 
   constructor(
     private readonly sanitizer: DomSanitizer,
@@ -50,6 +52,18 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
         }
         case "comparisonComplete": {
           this.comparison = event.data.payload;
+
+          if (this.comparison.activeSetAs.value == "background") {
+            this.backgroundDocument = this.comparison.activeFile;
+            this.backgroundColor = this.comparison.activeColor.value;
+            this.overlayDocument = this.comparison.otherFile;
+            this.overlayColor = this.comparison.otherColor.value;
+          } else {
+            this.overlayDocument = this.comparison.activeFile;
+            this.overlayColor = this.comparison.activeColor.value;
+            this.backgroundDocument = this.comparison.otherFile;
+            this.backgroundColor = this.comparison.otherColor.value;
+          }
 
           this.iframe?.nativeElement.contentWindow?.postMessage({
             type: "guiMode",
@@ -258,7 +272,9 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
     this.adjustingEvent.isAdjusting = false;
   }
 
-  onFileClick(fileIndex: number): void {
+  onFileClick(fileIndex?: number): void {
+    if (fileIndex === undefined) return;
+
     this.activeFileIndex = fileIndex;
 
     this.iframe?.nativeElement.contentWindow?.postMessage({
