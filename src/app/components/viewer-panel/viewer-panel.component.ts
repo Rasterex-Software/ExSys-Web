@@ -77,6 +77,12 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
         case "activeFileChanged": {
           if (!this.isProgress) {
             this.activeFileIndex = event.data.payload.index;
+
+            setTimeout(() => {
+              this.iframe?.nativeElement.contentWindow?.postMessage({
+                type: "redrawPage"
+              }, "*");
+            }, 50);
           }
           break;
         }
@@ -292,6 +298,12 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
         }
       }, "*");
     }
+
+    setTimeout(() => {
+      this.iframe?.nativeElement.contentWindow?.postMessage({
+        type: "redrawPage"
+      }, "*");
+    }, 50);
   }
 
   onExpandViewClick(): void {
@@ -359,6 +371,12 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
     }
 
     this.isFullScreenView = true;
+
+    setTimeout(() => {
+      this.iframe?.nativeElement.contentWindow?.postMessage({
+        type: "redrawPage"
+      }, "*");
+    }, 50);
   }
 
   onFullScreenClose(): void {
