@@ -324,7 +324,7 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
 
     setTimeout(() => {
       this.iframe?.nativeElement.contentWindow?.postMessage({
-        type: "zoomWidth"
+        type: "redrawPage"
       }, "*");
     }, 50);
   }
@@ -343,7 +343,7 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
 
     setTimeout(() => {
       this.iframe?.nativeElement.contentWindow?.postMessage({
-        type: "zoomWidth"
+        type: "redrawPage"
       }, "*");
     }, 50);
   }
