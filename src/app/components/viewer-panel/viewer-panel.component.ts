@@ -54,14 +54,10 @@ export class ViewerPanelComponent implements OnInit, OnChanges {
           this.comparison = event.data.payload;
 
           if (this.comparison.activeSetAs.value == "background") {
-            this.backgroundDocument = this.comparison.activeFile;
             this.backgroundColor = this.comparison.activeColor.value;
-            this.overlayDocument = this.comparison.otherFile;
             this.overlayColor = this.comparison.otherColor.value;
           } else {
-            this.overlayDocument = this.comparison.activeFile;
             this.overlayColor = this.comparison.activeColor.value;
-            this.backgroundDocument = this.comparison.otherFile;
             this.backgroundColor = this.comparison.otherColor.value;
           }
 
